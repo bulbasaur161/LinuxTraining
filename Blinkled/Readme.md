@@ -1,5 +1,5 @@
 # Build program
-```sh
+```php
 g++ Blink_led.cpp -o blink
 ./blink
 ```
