@@ -3,8 +3,6 @@
 g++ Blink_led.cpp -o blink
 ./blink
 ```
+This is a LoRa device driver as a Linux kernel module with IEEE 802.15.4 MAC interfaces.
 
-  If the target uses Device Tree mechanism like some embedded systems, Raspberry Pi for example.
-  Its device tree may need to be updated first.
-  There is a device tree overlay for Raspberry Pi in the dts-overlay folder for example.
-  Just ``` make ``` in the folder, than it will compile and install the device tree overlay, and reboot is needed.
+The driver with file operation interfaces could be foun
