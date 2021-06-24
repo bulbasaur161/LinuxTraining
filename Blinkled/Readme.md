@@ -1,6 +1,6 @@
 # Sysfs
 Sysfs  is mounted on the /sys/ folder.
-```sh 
+```sh
 cd /sys/
 /sys# ls
 ```
