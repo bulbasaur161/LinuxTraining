@@ -1,2 +1,2 @@
-g++ Blink_led.cpp -o blink  
-./blink  
+# g++ Blink_led.cpp -o blink  
+# ./blink  
