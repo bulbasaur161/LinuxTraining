@@ -61,6 +61,10 @@ sudo make ARCH=arm modules_install
 
 # 7. Makefile to build kernel modules
 ``` sh
+#obj-<X>
+#X = n, Do not compile the module
+#X = y, Compile the module and link with kernel image
+#X = m, Compile as dynamically loadable kernel module
 obj-m := main.o
 ARCH=arm
 CROSS_COMPILE=arm-linux-gnueabihf-
