@@ -20,7 +20,7 @@ Tool-chain PATH settings:
 - Copy the below export command with path information to .bashrc file
       ``` sh
       export PATH=$PATH:<path_to_tool_chain_binaries>
-      ```
+      ```  
   or simply do
       ``` sh
       echo “export PATH=$PATH:<path_to_tool_chain_binaries>” > ~/.bashrc
