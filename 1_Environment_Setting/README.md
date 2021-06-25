@@ -18,12 +18,12 @@ Tool-chain PATH settings:
 - Go to you home directory.
 - Open .bashrc using vim or gedit text editor.
 - Copy the below export command with path information to .bashrc file:  
-      ``` sh
-      export PATH=$PATH:<path_to_tool_chain_binaries>
-      ```  
+``` sh
+export PATH=$PATH:<path_to_tool_chain_binaries>
+```
   or simply do:  
-      ``` sh
-      echo “export PATH=$PATH:<path_to_tool_chain_binaries>” > ~/.bashrc
-      ```
+``` sh
+echo “export PATH=$PATH:<path_to_tool_chain_binaries>” > ~/.bashrc
+```
 
 # 4. Install GParted
