@@ -1,4 +1,4 @@
-#Install these packages on the HOST
+# Install these packages on the HOST
 ``` sh
 sudo apt-get update
 sudo apt-get install build-essential lzop u-boot-tools net-tools bison flex libssl-dev libncurses5-dev libncursesw5-dev unzip chrpath xz-utils minicom
