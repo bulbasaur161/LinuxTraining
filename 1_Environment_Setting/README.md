@@ -37,5 +37,44 @@ echo “export PATH=$PATH:<path_to_tool_chain_binaries>” > ~/.bashrc
 - Extract debian image. Right click debian image and mount this in file system.
 - Go to mount point and copy all file to rootfs partion of SD card. (use command: sudo copy -a * /).
 
-# 6. Kernel image update.
-- Prebuilt kernel is 4.4.62
+# 6. Kernel image, kernel modules update.
+- Prebuilt kernel is 4.4.62, Clone the latest stable kernel source from BBB official github: https://github.com/beagleboard/linux . Clone 4.14 version.
+- Build kernel:  
+  Kernel source code compilation. This stage creates a kernel image "uImage" also all the device tree source files will be compiled, and dtbs will be generated.
+```sh
+cd <kernel source folder>
+make ARCH=arm distclean
+make ARCH=arm bb.org_defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- uImage dtbs LOADADDR=0x80008000 -j4
+```
+- Build kernel module:  
+  This step builds and generates in-tree loadable(M) kernel modules(.ko). Installs all the generated .ko files in the default path of the host computer
+(/lib/modules/<kernel_ver>). In case kernel_ver is 4.14.
+```sh
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules -j4
+sudo make ARCH=arm modules_install
+```
+- Copy uImage from host(../arch/arm/boot) to board and then update the boot partition of the SD card.
+- Copy newly installed 4.14.108 folder from host to board's /lib/modules/ folder.
+- Reset the board (you should see BBB boots with newly updated kernel image )
+
+# 7. Makefile to build kernel modules
+``` sh
+obj-m := main.o
+ARCH=arm
+CROSS_COMPILE=arm-linux-gnueabihf-
+#set KERN_DIR to linux source location 
+KERN_DIR = ~/workspace/ldd/source/linux_bbb_4.14/
+HOST_KERN_DIR = /lib/modules/$(shell uname -r)/build/
+
+all:
+	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERN_DIR) M=$(PWD) modules
+clean:
+	make -C $(HOST_KERN_DIR) M=$(PWD) clean
+	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERN_DIR) M=$(PWD) clean
+help:
+	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERN_DIR) M=$(PWD) help
+host:
+	make -C $(HOST_KERN_DIR) M=$(PWD) modules
+```
