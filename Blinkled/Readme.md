@@ -38,3 +38,4 @@ g++ Blink_led.cpp -o blink
 https://www.teachmemicro.com/beaglebone-black-blink-led-using-c/  
 https://www.teachmemicro.com/beaglebone-black-controlling-user-leds/  
 https://www.youtube.com/watch?v=pJWcRPcqk3g
+http://derekmolloy.ie/kernel-gpio-programming-buttons-and-leds/
