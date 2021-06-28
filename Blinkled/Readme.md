@@ -29,6 +29,11 @@ root@arm:/sys/class/gpio/gpio67# echo 1 > value
 root@arm:/sys/class/gpio/gpio67# echo 0 > value
 ```
 
+Delete.
+```sh
+root@arm:/sys/class/gpio# echo 67 > unexport
+```
+
 # Build program
 ```sh
 g++ Blink_led.cpp -o blink
