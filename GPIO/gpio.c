@@ -12,7 +12,9 @@ MODULE_VERSION("0.1");
 
 #define PIN_NUMBER 4
 static unsigned int gpioButton[PIN_NUMBER] = {44, 26, 46, 65};
+struct timer_list led_timer;
 
+static void blink_led();
 static int dev_open(struct inode *, struct file *);
 static int dev_close(struct inode *, struct file *);
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35))
@@ -58,6 +60,10 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 	switch(cmd)
 	{
 		case 1:
+			init_timer(led_timer);
+			led_timer.function = blink_led;
+			led_timer.expries = jiffies + HZ;
+			add_timer(&led_timer);
 			break;
 		default:
 			return -EINVAL;
