@@ -14,11 +14,21 @@ static unsigned int gpioButton[PIN_NUMBER] = {44, 26, 46, 65};
 
 static int dev_open(struct inode *, struct file *);
 static int dev_close(struct inode *, struct file *);
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35))
+static int dev_ioctl(struct inode *i, struct file *f, unsigned int cmnd, unsigned long arg);
+#else
+static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg);
+#endif
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE,
 	.open = dev_open,
 	.release = dev_close,
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,5,35))
+	.ioctl = dev_ioctl
+#else
+	.unlocked_ioctl = dev_ioctl
+#endif
 };
 
 static struct miscdevice btn_dev = {
@@ -35,6 +45,23 @@ static int dev_open(struct inode *inodep, struct file *filep)
 static int dev_close(struct inode *inodep, struct file *filep)
 {
 	/* Do Nothing */
+	return 0;
+}
+
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35))
+static int dev_ioctl(struct inode *i, struct file *f, unsigned int cmd, unsigned long arg)
+#else
+static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+#endif
+{
+	birthday q;
+	switch(cmd)
+	{
+		case 1:
+			break;
+		default:
+			return -EINVAL
+	}
 	return 0;
 }
 
