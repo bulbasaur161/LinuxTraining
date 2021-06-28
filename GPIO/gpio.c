@@ -60,7 +60,7 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 		case 1:
 			break;
 		default:
-			return -EINVAL
+			return -EINVAL;
 	}
 	return 0;
 }
