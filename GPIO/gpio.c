@@ -54,7 +54,6 @@ static int dev_ioctl(struct inode *i, struct file *f, unsigned int cmd, unsigned
 static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 #endif
 {
-	birthday q;
 	switch(cmd)
 	{
 		case 1:
