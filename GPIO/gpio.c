@@ -100,16 +100,7 @@ static void blink_led1(struct timer_list* timer)
 
 static void blink_led2(unsigned long ptr)
 {
-	if(status == 0)
-	{
-		gpio_set_value (67, 1);
-		status = 1;
-	}
-	else
-	{
-		gpio_set_value (67, 0);
-		status = 0;
-	}
+	gpio_set_value (67, ~gpio_get_value(67));
 	
 	// Set timeout
 	led_timer.expires = jiffies + HZ;
@@ -152,23 +143,19 @@ static int __init gpio_init(void)
 	}
 	
  	pr_info("GPIO_TEST: Initializing the GPIO_TEST LKM\n");
-	/*
-	pr_info("GPIO_TEST: Start blink led\n");
-	// Init timer
-	init_timer(&led_timer);
-	// Set callback function of timer
-	led_timer.function = blink_led2; // You can use timer_setup(&led_timer1, blink_led, 0) instead of init_timer and timer.fucntion;
-	// Set timeout one second
-	led_timer.expires = jiffies + HZ;
-	// Start timer
-	add_timer(&led_timer);*/
+	
 	return 0;
 }
 
 static void __exit gpio_exit(void)
 {
 	int i;
-	del_timer(&led_timer);
+	int ret = del_timer(&led_timer);
+	if (ret)
+	{
+		pr_info("Oni timer could not be removed...\n");
+	}
+	
 	for (i = 0; i< PIN_NUMBER; i++)
 	{
 		gpio_free(gpioButton[i]);
