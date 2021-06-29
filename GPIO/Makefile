@@ -13,3 +13,7 @@ help:
 	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERN_DIR) M=$(PWD) help
 host:
 	make -C $(HOST_KERN_DIR) M=$(PWD) modules
+app: app.o
+
+app.o: app.c
+	$(CROSS_COMPILE)gcc -c -o $@ $
