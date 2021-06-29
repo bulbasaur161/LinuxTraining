@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +27,7 @@ int main(int argc, char *argv[])
 	    return 2;
 	}
 	
-	if(ioctl(fd, 1, &q) == -1)
+	if(ioctl(fd, 1, 0) == -1)
 	{
 		printf("query_apps ioctl clr\n");
 	}
