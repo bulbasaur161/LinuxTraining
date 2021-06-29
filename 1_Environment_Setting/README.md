@@ -20,6 +20,7 @@ Tool-chain PATH settings:
 - Copy the below export command with path information in the last line to .bashrc file:  
 ``` sh
 export PATH=$PATH:<path_to_tool_chain_binaries>
+# example: export PATH=$PATH:/home/test/workspace/ldd/download/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin
 ```
   or simply do:  
 ``` sh
