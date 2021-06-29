@@ -94,7 +94,7 @@ static void blink_led1(struct timer_list* timer)
 		gpio_set_value (67, 1);
 	}
 	
-	if(status = 0)
+	if(status == 0)
 	{
 		// Set timeout
 		led_timer.expires = jiffies + HZ;
@@ -114,7 +114,7 @@ static void blink_led2(unsigned long ptr)
 		gpio_set_value (67, 1);
 	}
 	
-	if(status = 0)
+	if(status == 0)
 	{
 		// Set timeout
 		led_timer.expires = jiffies + HZ;
