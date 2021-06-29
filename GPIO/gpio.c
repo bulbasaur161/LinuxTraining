@@ -63,7 +63,7 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 	switch(cmd)
 	{
 		case 1:
-			pr_info("Start blink led\n");
+			pr_info("GPIO_TEST: Start blink led\n");
 			// Init timer
 			init_timer(&led_timer);
 			// Set callback function of timer
@@ -153,7 +153,7 @@ static int __init gpio_init(void)
 	
  	pr_info("GPIO_TEST: Initializing the GPIO_TEST LKM\n");
 	
-	pr_info("Start blink led\n");
+	pr_info("GPIO_TEST: Start blink led\n");
 	// Init timer
 	init_timer(&led_timer);
 	// Set callback function of timer
