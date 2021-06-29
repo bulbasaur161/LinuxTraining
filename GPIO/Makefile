@@ -6,6 +6,7 @@ HOST_KERN_DIR = /lib/modules/$(shell uname -r)/build/
 
 all:
 	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERN_DIR) M=$(PWD) modules
+	$(CROSS_COMPILE)gcc -c app.c -o app
 clean:
 	make -C $(HOST_KERN_DIR) M=$(PWD) clean
 	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERN_DIR) M=$(PWD) clean
@@ -13,7 +14,3 @@ help:
 	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KERN_DIR) M=$(PWD) help
 host:
 	make -C $(HOST_KERN_DIR) M=$(PWD) modules
-app: app.o
-
-app.o: app.c
-	$(CROSS_COMPILE)gcc -c -o $@ $
