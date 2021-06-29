@@ -98,7 +98,7 @@ static void blink_led1(struct timer_list* timer)
 	add_timer(&led_timer);
 }
 
-static void blink_led2(unsigned log ptr)
+static void blink_led2(unsigned long ptr)
 {
 	if(status == 0)
 	{
