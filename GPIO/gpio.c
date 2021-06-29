@@ -68,7 +68,7 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 			// Set callback function of timer
 			led_timer.function = blink_led; // Can use timer_setup(&led_timer, blink_led, 0);
 			// Set timeout
-			led_timer.expries = jiffies + HZ;
+			led_timer.expires = jiffies + HZ;
 			// Start timer
 			add_timer(&led_timer);
 			break;
