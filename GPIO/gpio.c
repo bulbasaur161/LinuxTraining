@@ -53,6 +53,11 @@ static int dev_close(struct inode *inodep, struct file *filep)
 	return 0;
 }
 
+void jiq_timedout(unsigned long ptr)
+{
+	//
+}
+
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35))
 static int dev_ioctl(struct inode *i, struct file *f, unsigned int cmd, unsigned long arg)
 #else
@@ -66,8 +71,8 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 			// Init timer
 			init_timer(&led_timer);
 			// Set callback function of timer
-			led_timer.function = &blink_led; // Can use timer_setup(&led_timer, blink_led, 0);
-			// Set timeout
+			led_timer.function = jiq_timedout; // Can use timer_setup(&led_timer, blink_led, 0);
+			// Set timeout one second
 			led_timer.expires = jiffies + HZ;
 			// Start timer
 			add_timer(&led_timer);
