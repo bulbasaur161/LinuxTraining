@@ -63,7 +63,7 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 	switch(cmd)
 	{
 		case 0:
-			//status = 1;
+			status = 1;
 			break;
 		case 1:
 			pr_info("GPIO_TEST: Start blink led\n");
