@@ -25,6 +25,10 @@ export PATH=$PATH:<path_to_tool_chain_binaries>
 ``` sh
 echo “export PATH=$PATH:<path_to_tool_chain_binaries>” > ~/.bashrc
 ```
+- run command:
+```sh
+source .bashrc
+```
 - Type arm tab tab to check tool-chain installed.
 
 # 4. Install GParted.
