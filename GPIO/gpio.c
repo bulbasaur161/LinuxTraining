@@ -66,6 +66,7 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 			status = 1;
 			break;
 		case 1:
+			status = 0;
 			pr_info("GPIO_TEST: Start blink led\n");
 			// Init timer
 			init_timer(&led_timer);
@@ -75,7 +76,6 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 			led_timer.expires = jiffies + HZ;
 			// Start timer
 			add_timer(&led_timer);
-			//status = 0;
 			break;
 		default:
 			return -EINVAL;
