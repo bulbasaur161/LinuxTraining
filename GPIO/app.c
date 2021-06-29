@@ -2,25 +2,34 @@
 
 int main(int argc, char *argv[])
 {
-  int fd;
-  
-  printf("argc = %d \n", argc);
-  if(argc == 2)
-  {
-    if(strcmp(argv[1], "-g") == 0)
-    {
-      
-    }
-  }
-  else
-  {
-    printf("input app 1 or app 0");
-  }
-  
-  if(ioctl(fd, QUERY_CLR_VARIABLES) == -1)
-  {
-          printf("query_apps ioctl clr\n");
-  }
+	int fd;
+	char *file_name = "/dev/query";
 
-  return 0;
+	printf("argc = %d \n", argc);
+	if(argc == 2)
+	{
+		if(strcmp(argv[1], "-g") == 0)
+		{
+
+		}
+	}
+	else
+	{
+		printf("input app 1 or app 0\n");
+	}
+
+	fd = open(file_name, O_RDWR);
+	if(fd == -1)
+	{
+	    perror("query_apps open\n");
+	    return 2;
+	}
+	
+	if(ioctl(fd, 1, &q) == -1)
+	{
+		printf("query_apps ioctl clr\n");
+	}
+
+	close(fd);
+	return 0;
 }
