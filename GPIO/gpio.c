@@ -64,7 +64,7 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 		case 1:
 			pr_info("Start blink led\n");
 			// Init timer
-			init_timer(led_timer);
+			init_timer(&led_timer);
 			// Set callback function of timer
 			led_timer.function = blink_led; // Can use timer_setup(&led_timer, blink_led, 0);
 			// Set timeout
