@@ -152,7 +152,7 @@ static int __init gpio_init(void)
 	}
 	
  	pr_info("GPIO_TEST: Initializing the GPIO_TEST LKM\n");
-	
+	/*
 	pr_info("GPIO_TEST: Start blink led\n");
 	// Init timer
 	init_timer(&led_timer);
@@ -161,7 +161,7 @@ static int __init gpio_init(void)
 	// Set timeout one second
 	led_timer.expires = jiffies + HZ;
 	// Start timer
-	add_timer(&led_timer);
+	add_timer(&led_timer);*/
 	return 0;
 }
 
