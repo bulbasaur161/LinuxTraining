@@ -4,6 +4,7 @@
 #include <linux/kernel.h>
 #include <linux/miscdevice.h>
 #include <linux/gpio.h>
+#include <linux/timer.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("me");
