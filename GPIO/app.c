@@ -3,7 +3,7 @@
 int main(int argc, char *argv[])
 {
 	int fd;
-	char *file_name = "/dev/query";
+	char *file_name = "/dev/gpio_test";
 
 	printf("argc = %d \n", argc);
 	if(argc == 2)
