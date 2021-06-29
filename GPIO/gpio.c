@@ -64,6 +64,7 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 	{
 		case 0:
 			status = 1;
+			gpio_set_value (67, 0);
 			break;
 		case 1:
 			status = 0;
@@ -85,17 +86,17 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 
 static void blink_led1(struct timer_list* timer)
 {
-	if(gpio_get_value(67) != 0)
-	{
-		gpio_set_value (67, 0);
-	}
-	else
-	{
-		gpio_set_value (67, 1);
-	}
-	
 	if(status == 0)
 	{
+		if(gpio_get_value(67) != 0)
+		{
+			gpio_set_value (67, 0);
+		}
+		else
+		{
+			gpio_set_value (67, 1);
+		}
+		
 		// Set timeout
 		led_timer.expires = jiffies + HZ;
 		// Start timer
@@ -105,17 +106,17 @@ static void blink_led1(struct timer_list* timer)
 
 static void blink_led2(unsigned long ptr)
 {
-	if(gpio_get_value(67) != 0)
-	{
-		gpio_set_value (67, 0);
-	}
-	else
-	{
-		gpio_set_value (67, 1);
-	}
-	
 	if(status == 0)
 	{
+		if(gpio_get_value(67) != 0)
+		{
+			gpio_set_value (67, 0);
+		}
+		else
+		{
+			gpio_set_value (67, 1);
+		}
+		
 		// Set timeout
 		led_timer.expires = jiffies + HZ;
 		// Start timer
