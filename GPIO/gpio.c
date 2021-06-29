@@ -92,7 +92,7 @@ static void blink_led(struct timer_list* timer)
 	}
 	
 	// Set timeout
-	led_timer.expries = jiffies + HZ;
+	led_timer.expires = jiffies + HZ;
 	// Start timer
 	add_timer(&led_timer);
 }
