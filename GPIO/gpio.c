@@ -11,10 +11,11 @@ MODULE_DESCRIPTION("Gpio test");
 MODULE_VERSION("0.1");
 
 #define PIN_NUMBER 4
-static unsigned int gpioButton[PIN_NUMBER] = {44, 26, 46, 65};
+static unsigned int gpioButton[PIN_NUMBER] = {67, 26, 46, 65};
 struct timer_list led_timer;
+static int status = 0;
 
-static void blink_led();
+static void blink_led(struct timer_list* timer);
 static int dev_open(struct inode *, struct file *);
 static int dev_close(struct inode *, struct file *);
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35))
@@ -60,15 +61,39 @@ static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 	switch(cmd)
 	{
 		case 1:
+			pr_info("Start blink led\n");
+			// Init timer
 			init_timer(led_timer);
-			led_timer.function = blink_led;
+			// Set callback function of timer
+			led_timer.function = blink_led; // Can use timer_setup(&led_timer, blink_led, 0);
+			// Set timeout
 			led_timer.expries = jiffies + HZ;
+			// Start timer
 			add_timer(&led_timer);
 			break;
 		default:
 			return -EINVAL;
 	}
 	return 0;
+}
+
+static void blink_led(struct timer_list* timer)
+{
+	if(status == 0)
+	{
+		gpio_set_value (67, 1);
+		status = 1;
+	}
+	else
+	{
+		gpio_set_value (67, 0);
+		status = 0;
+	}
+	
+	// Set timeout
+	led_timer.expries = jiffies + HZ;
+	// Start timer
+	add_timer(&led_timer);
 }
 
 static int __init gpio_init(void)
