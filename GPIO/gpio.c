@@ -39,7 +39,7 @@ static struct file_operations fops = {
 
 static struct miscdevice btn_dev = {
 	.minor = MISC_DYNAMIC_MINOR,
-	.name = "buttons",
+	.name = "gpio_test",
 	.fops = &fops,
 };
 
