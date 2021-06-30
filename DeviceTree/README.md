@@ -9,7 +9,7 @@ arch/arm/boot/dts/am335x-evm.dts
 # Device tree syntax
 - Device node
 ```
-node-name@unit-address
+label: node-name@unit-address
 unit-address is the first address of the reg property.
 If device node doesn't contain any reg property, unit-address can be ommited.
 Reg property explains the base address of the register of peripheral on the memory.
