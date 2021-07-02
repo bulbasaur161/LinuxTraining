@@ -25,7 +25,8 @@ i2c0: i2c@44e0b000 {
 		};
 ```
 
-# Device tree overlay build
+# Device tree overlay
+- Build device tree overlay
 ```sh
 dtc -@ -I dts -O dtb -o overlay.dtbo overlay.dts
 ```
