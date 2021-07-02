@@ -24,3 +24,8 @@ i2c0: i2c@44e0b000 {
 			status = "disabled";
 		};
 ```
+
+# Device tree overlay build
+```sh
+dtc -@ -I dts -O dtb -o overlay.dtbo overlay.dts
+```
