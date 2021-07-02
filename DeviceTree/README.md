@@ -61,5 +61,7 @@ load mmc 0:2 ${fdtovaddr} /lib/firmware/overlay.dtbo
 #Set it as the working fdt tree
 fdt addr $fdtaddr
 #Resize if have multil overlay
-fdt 
+fdt resize 8192
+#apply overlay
+fdt apply $fdtovaddr
 ```
