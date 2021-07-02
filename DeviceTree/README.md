@@ -30,3 +30,5 @@ i2c0: i2c@44e0b000 {
 ```sh
 dtc -@ -I dts -O dtb -o overlay.dtbo overlay.dts
 ```
+- U-boot v2019.04 support device tree  
+https://source.denx.de/u-boot/u-boot/-/tree/v2019.04
