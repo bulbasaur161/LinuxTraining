@@ -63,6 +63,9 @@ sudo make ARCH=arm modules_install
 - Copy uImage from host(../arch/arm/boot) to board and then update the boot partition of the SD card.
 - Copy newly installed 4.14.108 folder from host to board's /lib/modules/ folder.
 - Reset the board (you should see BBB boots with newly updated kernel image )
+```sh
+sudo picocom -b 115200 /dev/ttyUSB0
+```
 
 # 7. Makefile to build kernel modules
 ``` sh
