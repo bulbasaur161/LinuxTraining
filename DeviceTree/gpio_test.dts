@@ -6,9 +6,9 @@
 		target = <&leds>;
 		__overlay__ {
 			led6 {
-				label = "red:indicator";
+				label = "red:test_led";
 				gpios = <&gpio1 18 GPIO_ACTIVE_HIGH>;
-				linux,default-trigger = "heartbeat";
+				linux,default-trigger = "test";
 				default-state = "off";
 			};
 		};
