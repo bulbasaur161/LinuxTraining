@@ -67,3 +67,12 @@ fdt apply $fdtovaddr
 load mmc 0:1 ${loadaddr} uImage
 bootm ${loadaddr} - ${fdtaddr}
 ```
+
+# Edit uEnv.txt file
+```sh
+console=ttyS0,115200n8
+dtb=am335x-boneblack.dtb
+dtbopath=/lib/firmware
+ovenvsetup=setenv fdtaddr 0x87f00000;setenv fdtovaddr 0x87fc0000;
+fdtload=load mmc 0:1 ${fdtaddr} ${dtb};
+```
