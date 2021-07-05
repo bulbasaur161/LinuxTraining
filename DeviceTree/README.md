@@ -64,4 +64,6 @@ fdt addr $fdtaddr
 fdt resize 8192
 #apply overlay
 fdt apply $fdtovaddr
+load mmc 0:1 ${loadaddr} uImage
+bootm ${loadaddr} - ${fdtaddr}
 ```
