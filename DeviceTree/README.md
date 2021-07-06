@@ -111,3 +111,5 @@ dtbopath=/lib/firmware
 ovenvsetup=setenv fdtaddr 0x87f00000;setenv fdtovaddr 0x87fc0000;
 fdtload=load mmc 0:1 ${fdtaddr} ${dtb};
 ```
+# Reference
+http://www.righto.com/2016/08/the-beaglebones-io-pins-inside-software.html#ref2
