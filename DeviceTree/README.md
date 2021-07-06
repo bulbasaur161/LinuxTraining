@@ -7,7 +7,8 @@ arch/arm/boot/dts/am33xx.dtsi
 arch/arm/boot/dts/am335x-evm.dts
 
 # Device tree syntax
-- Device node
+- Device node  
+I2C
 ```
 label: node-name@unit-address
 unit-address is the first address of the reg property.
@@ -23,6 +24,40 @@ i2c0: i2c@44e0b000 {
 			interrupts = <70>;
 			status = "disabled";
 		};
+```
+GPIO
+```sh
+#beagleboard/linux/blob/5.4/arch/arm/boot/dts/am33xx.dtsi
+ocp: ocp {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+		ti,hwmods = "l3_main";
+
+		l4_wkup: interconnect@44c00000 {
+			wkup_m3: wkup_m3@100000 {
+				compatible = "ti,am3352-wkup-m3";
+				reg = <0x100000 0x4000>,
+				      <0x180000 0x2000>;
+				reg-names = "umem", "dmem";
+				ti,hwmods = "wkup_m3";
+				ti,pm-firmware = "am335x-pm-firmware.elf";
+			};
+		};
+		
+beagleboard/linux/blob/5.4/arch/arm/boot/dts/am33xx-l4.dtsi
+&l4_wkup {						/* 0x44c00000 */
+	segment@200000 {					/* 0x44e00000 */
+			compatible = "simple-bus";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			gpio0_target: target-module@7000 {	/* 0x44e07000, ap 14 20.0 */
+						compatible = "ti,sysc-omap2", "ti,sysc";
+						ti,hwmods = "gpio1";
+						reg = <0x7000 0x4>,
+						      <0x7010 0x4>,
+						      <0x7114 0x4>;
 ```
 
 # Device tree overlay
