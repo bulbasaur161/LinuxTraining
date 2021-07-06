@@ -46,7 +46,7 @@ ocp: ocp {
 			};
 		};
 		
-beagleboard/linux/blob/5.4/arch/arm/boot/dts/am33xx-l4.dtsi
+#beagleboard/linux/blob/5.4/arch/arm/boot/dts/am33xx-l4.dtsi
 &l4_wkup {						/* 0x44c00000 */
 	segment@200000 {					/* 0x44e00000 */
 			compatible = "simple-bus";
