@@ -1,4 +1,4 @@
-# Run. Blinkled GPIO67 - Pin 8.8
+# Run. Blinkled GPIO67(GPIO 2.3) - Pin 8.8
 ```sh
 insmod gpio.ko
 chmod +x led_app
