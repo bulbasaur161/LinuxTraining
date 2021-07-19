@@ -59,6 +59,10 @@ ocp: ocp {
 						      <0x7010 0x4>,
 						      <0x7114 0x4>;
 ```
+- Build device tree
+```sh
+sudo make=ARM CROSS_COMPILE=arm-linux-gnueabihf- xxx.dtb
+```
 
 # Device tree overlay
 - Build device tree overlay
