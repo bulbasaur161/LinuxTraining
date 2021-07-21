@@ -47,7 +47,7 @@ int gpio_sysfs_probe(struct platform_device *pdev)
 	struct device_node *child = NULL;
 	struct gpiodev_private_data *dev_data;
 
-  //Get number child node of bone_gpio_devs parent node in device tree
+  	//Get number child node of bone_gpio_devs parent node in device tree
 	gpio_drv_data.total_devices = of_get_child_count(parent);
 	if(!gpio_drv_data.total_devices){
 		dev_err(dev,"No devices found\n");
@@ -56,7 +56,7 @@ int gpio_sysfs_probe(struct platform_device *pdev)
 
 	dev_info(dev,"Total devices found = %d\n",gpio_drv_data.total_devices);
 
-  //Allocate devices
+  	//Allocate devices
 	gpio_drv_data.dev = devm_kzalloc(dev, sizeof(struct device *) * gpio_drv_data.total_devices , GFP_KERNEL);
 
 	for_each_available_child_of_node(parent,child)
@@ -68,18 +68,19 @@ int gpio_sysfs_probe(struct platform_device *pdev)
 			return -ENOMEM;
 		}
 
-    //Get data from device tree, property "label"
+    		//Get data from device tree, property "label"
 		if(of_property_read_string(child,"label",&name) )
 		{
 			dev_warn(dev,"Missing label information\n");
 			snprintf(dev_data->label,sizeof(dev_data->label),"unkngpio%d",i);
 		}else{
-      //Copy data to gpio private data
+      			//Copy data to gpio private data
 			strcpy(dev_data->label,name);
 			dev_info(dev,"GPIO label = %s\n",dev_data->label);
 			
 		}
 
+		//Get gpio_desc from child node
 		dev_data->desc = devm_fwnode_get_gpiod_from_child(dev,"bone",&child->fwnode,\
 							GPIOD_ASIS,dev_data->label);
 		if(IS_ERR( dev_data->desc)){
@@ -128,14 +129,14 @@ struct platform_driver gpiosysfs_platform_driver =
 
 int __init gpio_sysfs_init(void)
 {
-  // Create class "/sys/class/bone_gpios"
+  	// Create class "/sys/class/bone_gpios"
 	gpio_drv_data.class_gpio = class_create(THIS_MODULE,"bone_gpios");
 	if(IS_ERR(gpio_drv_data.class_gpio)){
 		pr_err("Error in creating class \n");
 		return PTR_ERR(gpio_drv_data.class_gpio);
 	}
 
-  // Register driver
+  	// Register driver
 	platform_driver_register(&gpiosysfs_platform_driver);
 	pr_info("module load success\n");
 	return 0;
