@@ -35,6 +35,29 @@ struct gpiodrv_private_data
 
 struct gpiodrv_private_data gpio_drv_data;
 
+static DEVICE_ATTR_RW(direction);
+static DEVICE_ATTR_RW(value);
+static DEVICE_ATTR_RO(label);
+
+static struct attribute *gpio_attrs[] = 
+{
+	&dev_attr_direction.attr,
+	&dev_attr_value.attr,
+	&dev_attr_label.attr,
+	NULL
+};
+
+static struct attribute_group gpio_attr_group =
+{
+	.attrs = gpio_attrs
+};
+
+static const struct attribute_group *gpio_attr_groups[] = 
+{
+	&gpio_attr_group,
+	NULL
+};
+
 int gpio_sysfs_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
@@ -80,7 +103,7 @@ int gpio_sysfs_probe(struct platform_device *pdev)
 			
 		}
 
-		//Get gpio_desc from child node
+		//Get gpio_desc from child node and store in gpio private data
 		dev_data->desc = devm_fwnode_get_gpiod_from_child(dev,"bone",&child->fwnode,\
 							GPIOD_ASIS,dev_data->label);
 		if(IS_ERR( dev_data->desc)){
@@ -98,6 +121,9 @@ int gpio_sysfs_probe(struct platform_device *pdev)
 		}
 
 		/*Create devices under /sys/class/bone_gpios */
+		/*Assign gpio private data(dev_data) to device(void * driver_data of struct device)*/
+		/*Additional attributes will also be created automatically, if use device_create() attributes not created automatically*/
+		/*If parameter devt = 0, device file not created in /dev and driver work only with attributes in /sys/class/bone_gpios. Dev file will created only if devt != 0*/
 		gpio_drv_data.dev[i] = device_create_with_groups(gpio_drv_data.class_gpio,dev,0,dev_data,gpio_attr_groups,\
 								dev_data->label);
 		if(IS_ERR(gpio_drv_data.dev[i])){
