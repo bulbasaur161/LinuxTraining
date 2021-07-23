@@ -94,7 +94,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- uImage dtbs LOADADDR=0x80008000
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules -j4
 sudo make ARCH=arm modules_install
 ```  
-- Copy /arch/arm/boot/dts/am335x-boneblack.dtb /arch/arm/boot/uImage to BOOT partion.
+- Copy arch/arm/boot/dts/am335x-boneblack.dtb arch/arm/boot/uImage to BOOT partion.
 - Copy modules 5.54 to ROOTFS partion:
 ```sh
 cd /lib/modules/
