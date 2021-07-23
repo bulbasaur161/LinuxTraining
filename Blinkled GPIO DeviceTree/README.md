@@ -81,4 +81,8 @@ mount /dev/mmcblk0p
 mount /dev/mmcblk0p1 /mnt/
 ```
 
+# Update kernel 5.4
+- Kernel Beaglebone 5.4
+https://github.com/beagleboard/linux/tree/5.4
+
 
