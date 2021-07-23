@@ -83,6 +83,32 @@ mount /dev/mmcblk0p1 /mnt/
 
 # Update kernel 5.4
 - Kernel Beaglebone 5.4
-https://github.com/beagleboard/linux/tree/5.4
+https://github.com/beagleboard/linux/tree/5.4  
+- Build kernel:
+```sh
+cd <kernel source folder>
+make ARCH=arm distclean
+make ARCH=arm bb.org_defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- uImage dtbs LOADADDR=0x80008000 -j4
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules -j4
+sudo make ARCH=arm modules_install
+```  
+- Copy /arch/arm/boot/dts/am335x-boneblack.dtb /arch/arm/boot/uImage to BOOT partion.
+- Copy modules 5.54 to ROOTFS partion:
+```sh
+cd /lib/modules/
+sudo cp -a 5.4.106/ /ROOTFS/lib/modules/
+sync
+```
 
+# Compile device tree
+- Compile device tree
+```sh
+cd <kernel source folder>
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- am335x-boneblack.dtb
+```  
+- Copy am335x-boneblack.dtb to boot partion.  
+- Reboot board and check in /sys/devices/platform/ . It have bone_gpio_devs is node was create by device tree.
+- Load gpio-sysfs.ko. Check whenever device added to /sys/class/bone-gpios.
 
