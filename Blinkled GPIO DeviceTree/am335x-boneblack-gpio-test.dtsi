@@ -16,7 +16,7 @@
 			bone-gpios = <&gpio2 3 GPIO_ACTIVE_HIGH>;
 		};
 		
-
+		/*
 		gpio3 {
 			label = "gpio2.4";
 			bone-gpios = <&gpio2 4 GPIO_ACTIVE_HIGH>;
@@ -37,7 +37,7 @@
 			label = "usled2:gpio1.23";
 			bone-gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
 		};
-
+		*/
 	
 
 	};//bone_gpio_devs
