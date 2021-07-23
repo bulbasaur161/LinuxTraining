@@ -55,6 +55,53 @@ ssize_t direction_show(struct device *dev, struct device_attribute *attr,char *b
 
 }
 
+ssize_t direction_store(struct device *dev, struct device_attribute *attr,const char *buf, size_t count)
+{
+
+	int ret;
+	struct gpiodev_private_data *dev_data = dev_get_drvdata(dev);
+	// While dealing with the sysfs file, don't use strcmp() function. sysfs_streq() will be used because it compare string without newline
+	if(sysfs_streq(buf,"in") )
+		ret = gpiod_direction_input(dev_data->desc);
+	else if (sysfs_streq(buf,"out"))
+		ret = gpiod_direction_output(dev_data->desc,0);
+	else
+		ret = -EINVAL;
+
+	return ret ? : count;
+}
+
+ssize_t value_show(struct device *dev, struct device_attribute *attr,char *buf)
+{
+	struct gpiodev_private_data *dev_data = dev_get_drvdata(dev);
+	int value;
+	value = gpiod_get_value(dev_data->desc);
+	return sprintf(buf,"%d\n",value);
+}
+
+ssize_t value_store(struct device *dev, struct device_attribute *attr,const char *buf, size_t count)
+{
+
+	struct gpiodev_private_data *dev_data = dev_get_drvdata(dev);
+	int ret;
+	long value;
+
+	// Convert string -> number
+	ret = kstrtol(buf,0,&value);
+	if(ret)
+		return ret;
+	
+	gpiod_set_value(dev_data->desc,value);
+
+	return count;
+}
+
+ssize_t label_show(struct device *dev, struct device_attribute *attr,char *buf)
+{
+	struct gpiodev_private_data *dev_data = dev_get_drvdata(dev);
+	return sprintf(buf, "%s\n", dev_data->label);
+}
+
 static DEVICE_ATTR_RW(direction);
 static DEVICE_ATTR_RW(value);
 static DEVICE_ATTR_RO(label);
@@ -77,6 +124,19 @@ static const struct attribute_group *gpio_attr_groups[] =
 	&gpio_attr_group,
 	NULL
 };
+
+int gpio_sysfs_remove(struct platform_device *pdev)
+{
+	int i;
+	
+	dev_info(&pdev->dev,"Remove called\n");
+
+	for(i = 0 ; i < gpio_drv_data.total_devices ; i++){
+		device_unregister(gpio_drv_data.dev[i]);
+	}
+	return 0;
+
+}
 
 int gpio_sysfs_probe(struct platform_device *pdev)
 {
