@@ -35,6 +35,26 @@ struct gpiodrv_private_data
 
 struct gpiodrv_private_data gpio_drv_data;
 
+// If not used dev_set_drvdata() funtion in probe to save private data in platform device structure, it will be must used dev_get_drvdata(dev->parent) to get private data
+// If used device_create() function in probe to save private data in platform device structure, it will be must used dev_get_drvdata(dev) to get private data
+// because in device_create function, private will saved in this device, not in parent device.
+ssize_t direction_show(struct device *dev, struct device_attribute *attr,char *buf)
+{
+	struct gpiodev_private_data *dev_data = dev_get_drvdata(dev);
+
+	int dir;
+	char *direction;
+
+	dir = gpiod_get_direction(dev_data->desc);
+	if(dir < 0)
+		return dir;
+	/* if dir = 0 , then show "out". if dir =1 , then show "in" */
+	direction = (dir == 0) ? "out":"in";
+
+	return sprintf(buf,"%s\n",direction);
+
+}
+
 static DEVICE_ATTR_RW(direction);
 static DEVICE_ATTR_RW(value);
 static DEVICE_ATTR_RO(label);
@@ -121,7 +141,7 @@ int gpio_sysfs_probe(struct platform_device *pdev)
 		}
 
 		/*Create devices under /sys/class/bone_gpios */
-		/*Assign gpio private data(dev_data) to device(void * driver_data of struct device)*/
+		/*Assign gpio private data(dev_data) to platform device structure(void * driver_data of struct device)*/
 		/*Additional attributes will also be created automatically, if use device_create() attributes not created automatically*/
 		/*If parameter devt = 0, device file not created in /dev and driver work only with attributes in /sys/class/bone_gpios. Dev file will created only if devt != 0*/
 		gpio_drv_data.dev[i] = device_create_with_groups(gpio_drv_data.class_gpio,dev,0,dev_data,gpio_attr_groups,\
