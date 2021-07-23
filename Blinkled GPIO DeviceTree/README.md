@@ -102,7 +102,11 @@ sudo cp -a 5.4.106/ /ROOTFS/lib/modules/
 sync
 ```
 
-# Compile device tree
+# Update device tree
+- Create am335x-boneblack-gpio-test.dtsi  
+  gpio 2.2 - GPIO66(2*32+2) - Header 8.7  
+  gpio 2.3 - GPIO67(2*32+3) - Header 8.8  
+- Edit am335x-boneblack.dts: include am335x-boneblack-gpio-test.dtsi  
 - Compile device tree
 ```sh
 cd <kernel source folder>
