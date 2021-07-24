@@ -116,3 +116,18 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- am335x-boneblack.dtb
 - Reboot board and check in /sys/devices/platform/ . It have bone_gpio_devs is node was create by device tree.
 - Load gpio-sysfs.ko. Check whenever device added to /sys/class/bone-gpios.
 
+# Test blink led
+- Build gpio kernel module driver
+- copy driver module to board
+```sh
+scp *.ko debian@192.168.7.2:/home/debian/drivers
+```
+- insmod driver
+- use cat and echo to edit driver
+```sh
+cd /sys/class/bone_gpios/gpio2.3
+#output 1 pin gpio2.3
+#The redirection is done by the shell before sudo is even started. So either make sure the redirection happens in a shell with the right permissions
+sudo bash -c 'echo 1 > value'
+```
+
