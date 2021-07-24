@@ -41,6 +41,10 @@ source .bashrc
 - Copy prebuit boot image to boot partion of SD card.
 - Extract debian image. Right click debian image and mount this in file system.
 - Go to mount point and copy all file to rootfs partion of SD card. (use command: sudo copy -a * /).
+- Run command to access shared folder in VirtualBox
+```sh
+sudo adduser USERNAME vboxsf
+```
 
 # 6. Kernel image, kernel modules update.
 - Prebuilt kernel is 4.4.62, Clone the latest stable kernel source from BBB official github: https://github.com/beagleboard/linux . Clone 4.14 version.
