@@ -15,6 +15,7 @@ unit-address is the first address of the reg property.
 If device node doesn't contain any reg property, unit-address can be ommited.
 Reg property explains the base address of the register of peripheral on the memory.
 Example:
+#https://github.com/beagleboard/linux/blob/4.14/arch/arm/boot/dts/am33xx.dtsi
 i2c0: i2c@44e0b000 {
 			compatible = "ti,omap4-i2c";
 			#address-cells = <1>;
