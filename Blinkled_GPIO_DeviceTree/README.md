@@ -6,7 +6,8 @@ arch/arm/boot/dts/am33xx.dtsi
 - Device tree
 arch/arm/boot/dts/am335x-evm.dts
 
-# Device tree syntax
+# Device tree syntax  
+Device tree is written in xml description language
 - Device node  
 I2C
 ```
