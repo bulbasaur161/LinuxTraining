@@ -1,3 +1,5 @@
+# Document of device tree  
+https://www.kernel.org/doc/Documentation/gpio/board.txt
 # Device tree path of board
 - Device tree of am33xx SOC
 ```
