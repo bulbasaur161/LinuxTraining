@@ -222,6 +222,7 @@ struct of_device_id  gpio_device_match[] =
 	{ }
 };
 
+// Need .owner = THIS_MODULE?
 struct platform_driver gpiosysfs_platform_driver = 
 {
 	.probe = gpio_sysfs_probe,
