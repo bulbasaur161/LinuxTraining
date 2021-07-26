@@ -15,7 +15,83 @@ i2c-2: 0x4819_C000  header P9-19 P9-20  - reading EEPROMS(IC CAT24C256 - if use 
 #define AM335X_PIN_UART1_CTSN			0x978 - ZCZ Pin Map D18 - Header 9.20 - i2c2_sda
 #define AM335X_PIN_UART1_RTSN			0x97c - ZCZ Pin Map D17 - Header 9.19 - i2c2_scl
 ```  
+- Curent device tree
+```sh
+#https://github.com/beagleboard/linux/blob/5.4/arch/arm/boot/dts/am335x-bone-common.dtsi
+&i2c2 {
+	pinctrl-names = "default";
+	//pinctrl-0 = <&i2c2_pins>;
+	pinctrl-0 = <>;
+
+	status = "okay";
+	clock-frequency = <100000>;
+	symlink = "bone/i2c/2";
+
+	cape_eeprom0: cape_eeprom0@54 {
+		compatible = "atmel,24c256";
+		reg = <0x54>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		cape0_data: cape_data@0 {
+			reg = <0 0x100>;
+		};
+	};
+
+	cape_eeprom1: cape_eeprom1@55 {
+		compatible = "atmel,24c256";
+		reg = <0x55>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		cape1_data: cape_data@0 {
+			reg = <0 0x100>;
+		};
+	};
+
+	cape_eeprom2: cape_eeprom2@56 {
+		compatible = "atmel,24c256";
+		reg = <0x56>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		cape2_data: cape_data@0 {
+			reg = <0 0x100>;
+		};
+	};
+
+	cape_eeprom3: cape_eeprom3@57 {
+		compatible = "atmel,24c256";
+		reg = <0x57>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		cape3_data: cape_data@0 {
+			reg = <0 0x100>;
+		};
+	};
+};
+```  
+Check device tree of I2C2:
+```sh
+ls /sys/devices/platform/ocp/48000000.interconnect/48000000.interconnect:segment@100000/4819c000.target-module/4819c000.i2c/i2c-2
+```
+It will show: 54 - cape_eeprom0, 55 - cape_eeprom1, 56 - cape_eeprom2, 57 -cape_eeprom3
+```sh
+2-0054	2-0056	delete_device  i2c-dev	new_device  power      uevent
+2-0055	2-0057	device	       name	of_node     subsystem
+```
 - Detect i2c
+Connect ds3231 to i2c2 of BBB and run follow cmd to check i2c address
 ```sh
 i2cdetect -r -y 2
 ```
+I will show:
+```sh
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+50: -- -- -- -- -- -- -- 57 -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- 68 -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- -- 
+```
+So the ds3231 's address is 0x68
