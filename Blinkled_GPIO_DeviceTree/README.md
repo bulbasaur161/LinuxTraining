@@ -124,7 +124,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- am335x-boneblack.dtb
 - Build gpio kernel module driver
 - copy driver module to board
 ```sh
-scp *.ko debian@192.168.7.2:/home/debian/drivers
+scp *.ko debian@192.168.7.2:/home/debian/Driver
 ```
 - insmod driver
 - use cat and echo to edit driver
