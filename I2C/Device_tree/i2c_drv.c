@@ -49,7 +49,7 @@ static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *i
 	int result;
 	
 	// Allocate i2c private data
-	data = devm_kzalloc(&client->dev, sizeof(struct i2c_data), GFP_KERNEL);
+	data = devm_kzalloc(&client->dev, sizeof(struct i2c_device_data), GFP_KERNEL);
 	// Assign pointer to private data, it same dev_set_drvdata () func
 	i2c_set_clientdata(client, data);
 
