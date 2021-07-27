@@ -78,7 +78,7 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 		//ret = copy_to_user(buf, &data, 1) ? -EFAULT : count;
 	//kfree(temp);
 	
-	pr_info("The RTC time is %02d\n", bcd2dec(data));
+	//pr_info("The RTC time is %02d\n", bcd2dec(data));
 	
 	return 0;
 }
