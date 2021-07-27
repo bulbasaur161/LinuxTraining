@@ -56,9 +56,6 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	
 	pr_info("Read device file\n");
 	
-	struct i2c_device_data *dev = (struct i2c_device_data*)(f->private_data);
-	struct i2c_adapter *adap = dev->client->adapter;
-	
 	//if (count != 1)
 	//	return -EINVAL;
 	
