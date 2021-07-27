@@ -17,13 +17,16 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("--");
 MODULE_DESCRIPTION("A I2C DS3231 driver");
 
+static int total_device = 0;
+
 /* Probe Function to invoke the I2c Driver */
 static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
 	struct i2c_data *data;
 	int result;
 
-	pr_info("module load success\n");
+	pr_info("module%d load success\n", total_device);
+	total_device ++;
 	return 0;
 }
 
