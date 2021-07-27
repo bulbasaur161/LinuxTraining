@@ -65,8 +65,6 @@ static int ds3231_remove (struct i2c_client *client)
 	// Assign pointer to private data, it same dev_get_drvdata  () func
 	data = i2c_get_clientdata(client);
 	
-	class_destroy(ds3231_driver_data.class);
-	unregister_chrdev_region(ds3231_driver_data.device_num_base,MAX_DEVICES);
 	total_device --;
 	pr_info("Remove module%d success\n", total_device);
 	return 0;
@@ -131,6 +129,8 @@ module_init(i2c_client_drv_init);
 static void __exit i2c_client_drv_exit(void)
 {
 	i2c_del_driver(&ds3231_I2C_drv);
+	class_destroy(ds3231_driver_data.class);
+	unregister_chrdev_region(ds3231_driver_data.device_num_base,MAX_DEVICES);
 }
 
 module_exit(i2c_client_drv_exit);
