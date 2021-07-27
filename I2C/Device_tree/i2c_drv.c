@@ -61,20 +61,20 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	
 	//temp = kmalloc(count, GFP_KERNEL);
 	
-	address = 0;
+	//address = 0;
 
-	msg[0].addr  = 0x68;                  /* device address */
-	msg[0].buf   = &address;              /* address of DS3231 register want to read */
-	msg[0].len   = 1;                     /* 1 byte */
-	msg[0].flags = 0;                     /* write */
+	//msg[0].addr  = 0x68;                  /* device address */
+	//msg[0].buf   = &address;              /* address of DS3231 register want to read */
+	//msg[0].len   = 1;                     /* 1 byte */
+	//msg[0].flags = 0;                     /* write */
 
 	/* Start read */
-	msg[1].addr  = 0x68;                  /* device address */
-	msg[1].buf   = &data;                 /* read buf */
-	msg[1].len   = 1;                     /* 1 byte */
-	msg[1].flags = I2C_M_RD;              /* read */
+	//msg[1].addr  = 0x68;                  /* device address */
+	//msg[1].buf   = &data;                 /* read buf */
+	//msg[1].len   = 1;                     /* 1 byte */
+	//msg[1].flags = I2C_M_RD;              /* read */
 
-	ret = i2c_transfer(adap, msg, 2);
+	//ret = i2c_transfer(adap, msg, 2);
 	
 	//if (ret >=0)
 		//ret = copy_to_user(buf, &data, 1) ? -EFAULT : count;
