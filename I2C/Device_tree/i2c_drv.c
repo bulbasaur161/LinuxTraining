@@ -17,6 +17,8 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("--");
 MODULE_DESCRIPTION("A I2C DS3231 driver");
 
+#define MAX_DEVICES 10
+
 static int total_device = 0;
 
 /*Device private data structure */
@@ -93,8 +95,6 @@ static struct i2c_driver ds3231_I2C_drv = {
 	.remove = ds3231_remove,
 	.id_table = i2c_ids,
 };
-
-#define MAX_DEVICES 10
 
 /* Initialization Module */
 static int __init i2c_client_drv_init(void)
