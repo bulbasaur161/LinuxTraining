@@ -46,7 +46,6 @@ struct i2c_driver_data ds3231_driver_data;
 static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
 	struct i2c_device_data *data;
-	int result;
 	
 	// Allocate i2c private data
 	data = devm_kzalloc(&client->dev, sizeof(struct i2c_device_data), GFP_KERNEL);
