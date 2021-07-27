@@ -19,44 +19,37 @@ MODULE_DESCRIPTION("A I2C DS3231 driver");
 
 static int total_device = 0;
 
-struct i2c_data {
+/*Device private data structure */
+struct i2c_device_data {
 	struct i2c_client *client;
 	dev_t dev; // For major and minor number
 	u8 *buf;
 	u16 value;
 	struct cdev cdev;
-	struct class *class;
 };
+
+/*Driver private data structure */
+struct i2c_driver_data
+{
+	int total_devices;
+	dev_t device_num_base; // For major and minor number
+	struct class *class;
+	struct device *device;
+};
+
+/*Driver's private data */
+struct i2c_driver_data ds3231_driver_data;
 
 /* Probe Function to invoke the I2c Driver */
 static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
-	struct i2c_data *data;
+	struct i2c_device_data *data;
 	int result;
 	
 	// Allocate i2c private data
 	data = devm_kzalloc(&client->dev, sizeof(struct i2c_data), GFP_KERNEL);
 	// Assign pointer to private data, it same dev_set_drvdata () func
 	i2c_set_clientdata(client, data);
-	// Allocate device number: minor of first device 0, number of device allocated 1
-	// character device name "i2c_drv" will appear in /proc/devices
-	result = alloc_chrdev_region(&data->dev,0,1,"i2c_drv");
-	
-	if(result < 0)
-	{
-		printk(KERN_ALERT"Unable to do Device Registration...\n");
-		unregister_chrdev_region(data->dev, 1);
-		return -1;
-	}
-	
-	printk("Major Number = %d\n", MAJOR(data->dev));
-	
-	if ((data->class = class_create(THIS_MODULE,"i2cdriver")) == NULL)
-	{
-		printk(KERN_ALERT"Unable to create the device class...\n");
-		unregister_chrdev_region(data->dev, 1);
-		return -1;
-	}
 
 	pr_info("module%d load success\n", total_device);
 	total_device ++;
@@ -66,13 +59,13 @@ static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *i
 /* Remove Function */
 static int ds3231_remove (struct i2c_client *client)
 {
-	struct i2c_data *data;
+	struct i2c_device_data *data;
 	
 	// Assign pointer to private data, it same dev_get_drvdata  () func
 	data = i2c_get_clientdata(client);
 	
-	class_destroy(data->class);
-	unregister_chrdev_region(data->dev, 1);
+	class_destroy(ds3231_driver_data.class);
+	unregister_chrdev_region(ds3231_driver_data.device_num_base,MAX_DEVICES);
 	total_device --;
 	pr_info("Remove module%d success\n", total_device);
 	return 0;
@@ -101,10 +94,35 @@ static struct i2c_driver ds3231_I2C_drv = {
 	.id_table = i2c_ids,
 };
 
+#define MAX_DEVICES 10
+
 /* Initialization Module */
 static int __init i2c_client_drv_init(void)
 {
-	// Register with i2c-core 
+	int ret;
+
+	/*1. Dynamically allocate a device number for MAX_DEVICES */
+	// Allocate device number: minor of first device 0, number of device allocated MAX_DEVICES
+	// device_num_base pointer first dev_t return
+	// character device name "i2c_drv_ds3231" will appear in /proc/devices
+	ret = alloc_chrdev_region(&ds3231_driver_data.device_num_base,0,MAX_DEVICES,"i2c_drv_ds3231");
+	if(ret < 0){
+		pr_err("Alloc chrdev failed\n");
+		return ret;
+	}
+	
+	printk("Major Number = %d\n", MAJOR(ds3231_driver_data.device_num_base));
+	
+	/*2. Create device class under /sys/class */
+	ds3231_driver_data.class = class_create(THIS_MODULE,"i2c_ds3231");
+	if(IS_ERR(ds3231_driver_data.class)){
+		pr_err("Class creation failed\n");
+		ret = PTR_ERR(ds3231_driver_data.class);
+		unregister_chrdev_region(ds3231_driver_data.device_num_base,MAX_DEVICES);
+		return ret;
+	}
+	
+	//3. Register with i2c-core 
 	return i2c_add_driver(&ds3231_I2C_drv);
 }
 
