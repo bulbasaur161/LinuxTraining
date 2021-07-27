@@ -58,6 +58,11 @@ static int my_open (struct inode *i, struct file *f)
 	return 0;
 }
 
+static int my_close(struct inode *i, struct file *f)
+{
+	return 0;
+}
+
 struct file_operations fops = {
 	.open		= my_open,
 	.release 	= my_close,
