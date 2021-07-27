@@ -33,7 +33,8 @@ static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *i
 /* Remove Function */
 static int ds3231_remove (struct i2c_client *client)
 {
-	pr_info("Remove success\n");
+	pr_info("Remove module%d success\n", total_device);
+	total_device --;
 	return 0;
 }
 
