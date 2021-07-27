@@ -134,7 +134,7 @@ static int ds3231_remove (struct i2c_client *client)
 	device_destroy(ds3231_driver_data.class,device_data->dev_num);
 	
 	/*2. Remove a cdev entry from the system*/
-	cdev_del(&dev_data->cdev);
+	cdev_del(&device_data->cdev);
 	
 	total_device --;
 	pr_info("Remove module%d success\n", total_device);
