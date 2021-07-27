@@ -46,8 +46,6 @@ int bcd2dec(char num)
 
 static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 {
-	pr_info("Read device file\n");
-	
 	struct i2c_device_data *dev = (struct i2c_device_data*)(f->private_data);
 	struct i2c_adapter *adap = dev->client->adapter;
 	struct i2c_msg msg[2];
@@ -55,6 +53,11 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	int ret;
 	unsigned char data;
 	unsigned char address;
+	
+	pr_info("Read device file\n");
+	
+	struct i2c_device_data *dev = (struct i2c_device_data*)(f->private_data);
+	struct i2c_adapter *adap = dev->client->adapter;
 	
 	//if (count != 1)
 	//	return -EINVAL;
@@ -94,9 +97,10 @@ static ssize_t my_write(struct file *f, const char *buf, size_t count, loff_t *o
 
 static int my_open (struct inode *i, struct file *f)
 {
-	pr_info("Open device file\n");
+	struct i2c_device_data *dev;
 	
-	struct i2c_device_data *dev = container_of(i->i_cdev, struct i2c_device_data, cdev);
+	pr_info("Open device file\n");
+	dev = container_of(i->i_cdev, struct i2c_device_data, cdev);
 	if(dev == NULL)
 	{
 		printk(KERN_ALERT" There is no data...\n");
