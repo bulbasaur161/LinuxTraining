@@ -125,10 +125,16 @@ static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *i
 /* Remove Function */
 static int ds3231_remove (struct i2c_client *client)
 {
-	struct i2c_device_data *data;
+	struct i2c_device_data *device_data;
 	
 	// Assign pointer to private data, it same dev_get_drvdata  () func
-	data = i2c_get_clientdata(client);
+	device_data = i2c_get_clientdata(client);
+	
+	/*1. Remove a device that was created with device_create() */
+	device_destroy(ds3231_driver_data.class,dev_data->dev_num);
+	
+	/*2. Remove a cdev entry from the system*/
+	cdev_del(&dev_data->cdev);
 	
 	total_device --;
 	pr_info("Remove module%d success\n", total_device);
