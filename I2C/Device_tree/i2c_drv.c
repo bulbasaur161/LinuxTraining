@@ -42,6 +42,39 @@ struct i2c_driver_data
 static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 {
 	pr_info("Read device file\n");
+	
+	struct i2c_device_data *dev = (struct i2c_device_data*)(f->private_data);
+	struct i2c_adapter *adap = dev->client->adapter;
+	struct i2c_msg msg[2];
+	char *temp;
+	int ret;
+	unsigned char data;
+	unsigned char address;
+	
+	//if (count != 1)
+	//	return -EINVAL;
+	
+	temp = kmalloc(count, GFP_KERNEL);
+	address = 0;
+
+	msg[0].addr  = 0x68;                  /* device address */
+	msg[0].buf   = &address;              /* address of DS3231 register want to read */
+	msg[0].len   = 1;                     /* 1 byte */
+	msg[0].flags = 0;                     /* write */
+
+	/* Start read */
+	msg[1].addr  = 0x68;                  /* device address */
+	msg[1].buf   = &data;                 /* read buf */
+	msg[1].len   = 1;                     /* 1 byte */
+	msg[1].flags = I2C_M_RD;              /* read */
+
+	ret = i2c_transfer(adap, msg, 2);
+	if (ret >=0)
+		ret = copy_to_user(buf, &data, 1) ? -EFAULT : count;
+	kfree(temp);
+	
+	pr_info("The RTC time is %02d\n", bcd2dec(data));
+	
 	return 0;
 }
 
@@ -55,6 +88,15 @@ static ssize_t my_write(struct file *f, const char *buf, size_t count, loff_t *o
 static int my_open (struct inode *i, struct file *f)
 {
 	pr_info("Open device file\n");
+	
+	struct i2c_device_data *dev = container_of(i->i_cdev, struct i2c_device_data, cdev);
+	if(dev == NULL)
+	{
+		printk(KERN_ALERT" There is no data...\n");
+		return -1;
+	}
+	f->private_data = dev;
+	
 	return 0;
 }
 
