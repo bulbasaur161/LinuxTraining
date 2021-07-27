@@ -59,7 +59,7 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	//if (count != 1)
 	//	return -EINVAL;
 	
-	temp = kmalloc(count, GFP_KERNEL);
+	//temp = kmalloc(count, GFP_KERNEL);
 	address = 0;
 
 	msg[0].addr  = 0x68;                  /* device address */
@@ -74,9 +74,9 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	msg[1].flags = I2C_M_RD;              /* read */
 
 	ret = i2c_transfer(adap, msg, 2);
-	if (ret >=0)
-		ret = copy_to_user(buf, &data, 1) ? -EFAULT : count;
-	kfree(temp);
+	//if (ret >=0)
+		//ret = copy_to_user(buf, &data, 1) ? -EFAULT : count;
+	//kfree(temp);
 	
 	pr_info("The RTC time is %02d\n", bcd2dec(data));
 	
