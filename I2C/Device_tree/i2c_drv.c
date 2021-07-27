@@ -79,14 +79,6 @@ static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *i
 	data = devm_kzalloc(&client->dev, sizeof(struct i2c_device_data), GFP_KERNEL);
 	// Assign pointer to private data, it same dev_set_drvdata () func
 	i2c_set_clientdata(client, data);
-
-	if(device_create(data->class, NULL, data->dev, NULL, "i2c_drv%d",0) == NULL)
-	{
-		printk(KERN_ALERT"Unable to create the device...\n");
-		class_destroy(data->class);
-		unregister_chrdev_region(data->dev, 1);
-		return -1;
-	}
 	
 	/*4. Get the device number */
 	data->dev_num = ds3231_driver_data.device_num_base + total_device;
@@ -112,7 +104,7 @@ static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *i
 	// param4: NULL - additon data
 	// param5: "i2cdev-%d" - device name, will be created in /dev
 	ds3231_driver_data.device = device_create(ds3231_driver_data.class, dev, data->dev_num,NULL,\
-								"i2cdev-%d",total_devices);
+								"i2cdev-%d",total_device);
 	if(IS_ERR(ds3231_driver_data.device)){
 		dev_err(dev,"Device create failed\n");
 		ret = PTR_ERR(ds3231_driver_data.device);
