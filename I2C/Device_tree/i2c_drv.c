@@ -39,6 +39,11 @@ struct i2c_driver_data
 	struct device *device;
 };
 
+int bcd2dec(char num)
+{
+        return ((num/16 * 10) + (num % 16));
+}
+
 static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 {
 	pr_info("Read device file\n");
