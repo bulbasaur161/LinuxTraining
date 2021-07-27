@@ -69,7 +69,7 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 
 	/* Start read */
 	msg[1].addr  = 0x68;                  /* device address */
-	msg[1].buf   = &data;                 /* read buf */
+	msg[1].buf   = data;                 /* read buf */
 	msg[1].len   = 1;                     /* 1 byte */
 	msg[1].flags = I2C_M_RD;              /* read */
 
