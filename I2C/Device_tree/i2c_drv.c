@@ -61,7 +61,7 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	
 	//temp = kmalloc(count, GFP_KERNEL);
 	
-	/address = 0;
+	address = 0;
 
 	msg[0].addr  = 0x68;                  /* device address */
 	msg[0].buf   = &address;              /* address of DS3231 register want to read */
