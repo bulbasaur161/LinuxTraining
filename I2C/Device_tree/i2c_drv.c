@@ -49,19 +49,18 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	struct i2c_device_data *dev = (struct i2c_device_data*)(f->private_data);
 	struct i2c_adapter *adap = dev->client->adapter;
 	struct i2c_msg msg[2];
-	char *temp;
 	int ret;
-	unsigned char data;
+	unsigned char data[4];
 	unsigned char address;
 	
-	pr_info("Read device file%d\n", count);
+	pr_info("Read device file\n");
 	
 	//if (count != 1)
 	//	return -EINVAL;
 	
 	//temp = kmalloc(count, GFP_KERNEL);
 	
-	address = 0;
+	address = 0x00;
 
 	msg[0].addr  = 0x68;                  /* device address */
 	msg[0].buf   = &address;              /* address of DS3231 register want to read */
@@ -74,13 +73,25 @@ static ssize_t my_read(struct file *f, char *buf, size_t count, loff_t *off)
 	msg[1].len   = 1;                     /* 1 byte */
 	msg[1].flags = I2C_M_RD;              /* read */
 
-	ret = i2c_transfer(adap, msg, 1);
+	ret = i2c_transfer(adap, msg, 2);
 	
 	//if (ret >=0)
 		//ret = copy_to_user(buf, &data, 1) ? -EFAULT : count;
-	//kfree(temp);
 	
-	//pr_info("The RTC time is %02d\n", bcd2dec(data));
+	pr_info("The RTC time is %02d:%02d:%02d\n", bcd2dec(data[2]), bcd2dec(data[1]), bcd2dec(data[0]));
+
+	address = 0x04;
+	msg[1].len = 3;
+
+	ret = i2c_transfer(adap, msg, 2);
+	pr_info("The date is %02d/%02d/%02d\n", bcd2dec(data[0]), bcd2dec(data[1]), bcd2dec(data[2]));
+
+	//address = 0x11;
+	//msg[1].len = 2;
+
+	//ret = i2c_transfer(adap, msg, 2);
+	//float temperature = data[0] + ((data[1] >> 6) * 0.25);
+	//pr_info("The temperature is %0.2fC\n", temperature);
 	
 	return 0;
 }
@@ -134,6 +145,7 @@ static int ds3231_probe(struct i2c_client *client, const struct i2c_device_id *i
 	data = devm_kzalloc(&client->dev, sizeof(struct i2c_device_data), GFP_KERNEL);
 	// Assign pointer to private data, it same dev_set_drvdata () func
 	i2c_set_clientdata(client, data);
+	data->client = client;
 	
 	/*4. Get the device number */
 	data->dev_num = ds3231_driver_data.device_num_base + total_device;
