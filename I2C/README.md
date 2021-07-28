@@ -18,6 +18,40 @@ i2c-2: 0x4819_C000  header P9-19 P9-20  - reading EEPROMS(IC CAT24C256 - if use 
 ```  
 - Curent device tree
 ```sh
+#https://github.com/beagleboard/linux/blob/5.4/arch/arm/boot/dts/am33xx-l4.dtsi
+target-module@9c000 {			/* 0x4819c000, ap 46 5a.0 */
+	compatible = "ti,sysc-omap2", "ti,sysc";
+	ti,hwmods = "i2c3";
+	reg = <0x9c000 0x8>,
+	      <0x9c010 0x8>,
+	      <0x9c090 0x8>;
+	reg-names = "rev", "sysc", "syss";
+	ti,sysc-mask = <(SYSC_OMAP2_CLOCKACTIVITY |
+			 SYSC_OMAP2_ENAWAKEUP |
+			 SYSC_OMAP2_SOFTRESET |
+			 SYSC_OMAP2_AUTOIDLE)>;
+	ti,sysc-sidle = <SYSC_IDLE_FORCE>,
+			<SYSC_IDLE_NO>,
+			<SYSC_IDLE_SMART>,
+			<SYSC_IDLE_SMART_WKUP>;
+	ti,syss-mask = <1>;
+	/* Domains (P, C): per_pwrdm, l4ls_clkdm */
+	clocks = <&l4ls_clkctrl AM3_L4LS_I2C3_CLKCTRL 0>;
+	clock-names = "fck";
+	#address-cells = <1>;
+	#size-cells = <1>;
+	ranges = <0x0 0x9c000 0x1000>;
+
+	i2c2: i2c@0 {
+		compatible = "ti,omap4-i2c";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x0 0x1000>;
+		interrupts = <30>;
+		status = "disabled";
+	};
+};
+
 #https://github.com/beagleboard/linux/blob/5.4/arch/arm/boot/dts/am335x-bone-common.dtsi
 &i2c2 {
 	pinctrl-names = "default";
