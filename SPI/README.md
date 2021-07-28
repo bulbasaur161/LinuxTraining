@@ -28,6 +28,10 @@ mcasp0_pins: mcasp0_pins {
 	rx-num-evt = <32>;
 };
 ```
+
+# Pin connection
+![image](https://user-images.githubusercontent.com/49242472/127280931-9d1e22f7-1cd3-4139-9c42-09035be82e70.png)
+
 # Offset SPI
 ```sh
 //SPI0
