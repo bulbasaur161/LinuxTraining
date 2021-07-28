@@ -1,6 +1,33 @@
 # SPI of BBB
 - SPI0: CS0-P9.17, D0-P9.21, DI-P9.18, SCLK-P9.22 - free
-- SPI1: CS0-P9.28, D0-P9.29, DI-P9.30, SCLK-P9.31 - TDA19988(HDMI)
+- SPI1: CS0-P9.28, D0-P9.29, DI-P9.30, SCLK-P9.31 - TDA19988(HDMI)  
+SPI1_SCLK(MCASP0_ACLKX), SPI1_CS0(MCASP0_AHCLKR), SPI1_D0(MCASP0_FSX) is used for HDMI. So we use SPI0 to connect LCD.
+```sh
+#https://github.com/beagleboard/linux/blob/5.4/arch/arm/boot/dts/am335x-boneblack-common.dtsi
+mcasp0_pins: mcasp0_pins {
+	pinctrl-single,pins = <
+		AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKX, PIN_INPUT_PULLUP, MUX_MODE0) /* mcasp0_ahcklx.mcasp0_ahclkx */
+		AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKR, PIN_OUTPUT_PULLDOWN, MUX_MODE2) /* mcasp0_ahclkr.mcasp0_axr2*/
+		AM33XX_PADCONF(AM335X_PIN_MCASP0_FSX, PIN_OUTPUT_PULLUP, MUX_MODE0)
+		AM33XX_PADCONF(AM335X_PIN_MCASP0_ACLKX, PIN_OUTPUT_PULLDOWN, MUX_MODE0)
+		AM33XX_PADCONF(AM335X_PIN_GPMC_A11, PIN_OUTPUT_PULLDOWN, MUX_MODE7) /* gpmc_a11.GPIO1_27 */
+	>;
+};
+	
+&mcasp0	{
+	#sound-dai-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&mcasp0_pins>;
+	status = "okay";
+	op-mode = <0>;	/* MCASP_IIS_MODE */
+	tdm-slots = <2>;
+	serial-dir = <	/* 0: INACTIVE, 1: TX, 2: RX */
+			0 0 1 0
+		>;
+	tx-num-evt = <32>;
+	rx-num-evt = <32>;
+};
+```
 # Offset SPI
 ```sh
 //SPI0
