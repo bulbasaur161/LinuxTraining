@@ -1,6 +1,6 @@
 # SPI of BBB
 - SPI0: CS0-P9.17, D0-P9.21, DI-P9.18, SCLK-P9.22 - free
-- SPI1: CS0-P9.28, D0-P9.29, DI-P9.30, SCLK-P9.31 - HDMI
+- SPI1: CS0-P9.28, D0-P9.29, DI-P9.30, SCLK-P9.31 - TDA19988(HDMI)
 # Device tree SPI
 - Current device file
 ```sh
