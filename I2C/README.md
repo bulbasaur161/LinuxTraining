@@ -18,6 +18,12 @@ i2c-2: 0x4819_C000  header P9-19 P9-20  - reading EEPROMS(IC CAT24C256 - if use 
 ```  
 - Curent device tree
 ```sh
+#https://github.com/beagleboard/linux/blob/5.4/arch/arm/boot/dts/am33xx.dtsi
+aliases: aliases {
+		i2c0 = &i2c0;
+		i2c1 = &i2c1;
+		i2c2 = &i2c2;
+		
 #https://github.com/beagleboard/linux/blob/5.4/arch/arm/boot/dts/am33xx-l4.dtsi
 target-module@9c000 {			/* 0x4819c000, ap 46 5a.0 */
 	compatible = "ti,sysc-omap2", "ti,sysc";
