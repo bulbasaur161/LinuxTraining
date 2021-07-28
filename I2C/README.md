@@ -96,3 +96,25 @@ I will show:
 70: -- -- -- -- -- -- -- -- 
 ```
 So the ds3231 's address is 0x68
+
+# Read/Write DS3231 with I2C
+Read:
+- Send write command with register address to ds3231 's address in I2C bus.
+```sh
+	msg[0].addr  = 0x68;                  /* device address */
+	msg[0].buf   = &address;              /* address of DS3231 register want to read */
+	msg[0].len   = 1;                     /* 1 byte */
+	msg[0].flags = 0;                     /* write */
+```
+- Send read command with number byte want to read to ds3231 's address in I2C bus.
+```sh
+	msg[1].addr  = 0x68;                  /* device address */
+	msg[1].buf   = data;                  /* read buf */
+	msg[1].len   = 3;                     /* 3 byte */
+	msg[1].flags = I2C_M_RD;              /* read */
+```
+Write:
+- Send write command with data to ds3231 's address in I2C bus.
+
+# Reference
+https://kipalog.com/posts/I2C-Client-Drivers-trong-Linux
