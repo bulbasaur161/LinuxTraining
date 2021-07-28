@@ -1,6 +1,19 @@
 # SPI of BBB
 - SPI0: CS0-P9.17, D0-P9.21, DI-P9.18, SCLK-P9.22 - free
 - SPI1: CS0-P9.28, D0-P9.29, DI-P9.30, SCLK-P9.31 - TDA19988(HDMI)
+# Offset SPI
+```sh
+//SPI0
+#define AM335X_PIN_SPI0_CS0			0x95c - ZCZ Pin Map A16 - Header 9.17 - CS0
+#define AM335X_PIN_SPI0_D0			0x954 - ZCZ Pin Map B17 - Header 9.21 - D0
+#define AM335X_PIN_SPI0_D1			0x958 - ZCZ Pin Map B16 - Header 9.18 - DI
+#define AM335X_PIN_SPI0_SCLK			0x950 - ZCZ Pin Map A17 - Header 9.22 - SCLK
+//SPI1
+#define AM335X_PIN_MCASP0_AHCLKR		0x99c - ZCZ Pin Map C12 - Header 9.28 - CS0
+#define AM335X_PIN_MCASP0_FSX			0x994 - ZCZ Pin Map B13 - Header 9.29 - D0
+#define AM335X_PIN_MCASP0_AXR0			0x998 - ZCZ Pin Map D12 - Header 9.30 - DI
+#define AM335X_PIN_MCASP0_ACLKX			0x990 - ZCZ Pin Map A13 - Header 9.31 - SCLK
+```
 # Device tree SPI
 - Current device file
 ```sh
