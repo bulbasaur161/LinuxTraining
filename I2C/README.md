@@ -1,7 +1,8 @@
 # I2C of BBB
 i2c-0: 0x44E0_B000  no header  - HDMI TDA19988 (not accessible on header pin), EEPROM  
 i2c-1: 0x4802_A000  header P9-17 P9-18  - free  
-i2c-2: 0x4819_C000  header P9-19 P9-20  - reading EEPROMS(IC CAT24C256 - if use expansion board)  The EEPROMs on each expansion board are connected to I2C2 on connector P9 pins 19 and 20. For this reason I2C2 must always be left connected and should not be changed by SW to remove it from the expansion header pin mux settings. If this is done, then the system will be unable to detect the capes
+i2c-2: 0x4819_C000  header P9-19 P9-20  - reading EEPROMS(IC CAT24C256 - if use expansion board)  The EEPROMs on each expansion board are connected to I2C2 on connector P9 pins 19 and 20. For this reason I2C2 must always be left connected and should not be changed by SW to remove it from the expansion header pin mux settings. If this is done, then the system will be unable to detect the capes  
+-> We wil connect ds3231 to I2C2 of BBB
 - Offset I2C
 ```sh
 #https://github.com/beagleboard/linux/blob/5.4/include/dt-bindings/pinctrl/am33xx.h
