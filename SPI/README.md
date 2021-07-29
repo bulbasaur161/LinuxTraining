@@ -97,4 +97,5 @@ https://github.com/eziya/STM32_HAL_ILI9341
 https://m.blog.naver.com/jjong_w/220971986593  
 http://matthewcmcmillan.blogspot.com/2014/09/experimenting-with-beaglebone-black-and-tft.html  
 https://cdn-learn.adafruit.com/downloads/pdf/introduction-to-the-beaglebone-black-device-tree.pdf  
-https://github.com/notro/fbtft/wiki
+https://github.com/notro/fbtft/wiki  
+http://papermint-designs.com/dmo-blog/2017-02-beaglebone-black-and-watterott-display
