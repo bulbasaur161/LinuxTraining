@@ -197,9 +197,9 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 	/*
 	 * Set the single channel master mode and put the controller in functional mode
 	 */
-	//l = mcspi_read_reg(mcspi, OMAP2_MCSPI_MODULCTRL);
-	//l &= ~(OMAP2_MCSPI_MODULCTRL_STEST | OMAP2_MCSPI_MODULCTRL_MS);
-	//l |= OMAP2_MCSPI_MODULCTRL_SINGLE;
+	l = mcspi_read_reg(mcspi, OMAP2_MCSPI_MODULCTRL);
+	l &= ~(OMAP2_MCSPI_MODULCTRL_STEST | OMAP2_MCSPI_MODULCTRL_MS);
+	l |= OMAP2_MCSPI_MODULCTRL_SINGLE;
 	//mcspi_write_reg(mcspi, OMAP2_MCSPI_MODULCTRL, l);
 	//ctx->modulctrl = l;
 }
