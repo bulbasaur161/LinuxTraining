@@ -233,7 +233,8 @@ static int __init omap_spi_init_driver(void)
 	
 	// Initialize the character driver interface
 	chrdev_init(&mcspi);		
-
+	
+	return 0;
 }
 
 static void __exit omap_spi_exit_driver(void)
