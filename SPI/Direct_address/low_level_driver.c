@@ -193,7 +193,7 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 	ENTER();
 	struct omap2_mcspi_regs	*ctx = &mcspi->ctx;
 	u32 l;
-	//mcspi_write_reg(mcspi, OMAP2_MCSPI_WAKEUPENABLE, OMAP2_MCSPI_WAKEUPENABLE_WKEN);
+	mcspi_write_reg(mcspi, OMAP2_MCSPI_WAKEUPENABLE, OMAP2_MCSPI_WAKEUPENABLE_WKEN);
 	/*
 	 * Set the single channel master mode and put the controller in functional mode
 	 */
