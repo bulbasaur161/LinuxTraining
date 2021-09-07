@@ -200,8 +200,8 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 	l = mcspi_read_reg(mcspi, OMAP2_MCSPI_MODULCTRL);
 	l &= ~(OMAP2_MCSPI_MODULCTRL_STEST | OMAP2_MCSPI_MODULCTRL_MS);
 	l |= OMAP2_MCSPI_MODULCTRL_SINGLE;
-	//mcspi_write_reg(mcspi, OMAP2_MCSPI_MODULCTRL, l);
-	//ctx->modulctrl = l;
+	mcspi_write_reg(mcspi, OMAP2_MCSPI_MODULCTRL, l);
+	ctx->modulctrl = l;
 }
 
 static int __init omap_spi_init_driver(void)
@@ -227,10 +227,10 @@ static int __init omap_spi_init_driver(void)
 	__raw_writel(0x30, spi_pad_base + 0x8);
 	__raw_writel(0x30, spi_pad_base + 0xc);
 
+	omap2_mcspi_set_master_mode(&mcspi);
+	
 	// Initialize the character driver interface
 	chrdev_init(&mcspi);	
-	
-	omap2_mcspi_set_master_mode(&mcspi);
 	
 	return 0;
 }
