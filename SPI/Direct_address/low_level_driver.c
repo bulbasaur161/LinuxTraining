@@ -227,7 +227,8 @@ static int __init omap_spi_init_driver(void)
 	__raw_writel(0x30, spi_pad_base + 0x8);
 	__raw_writel(0x30, spi_pad_base + 0xc);
 
-	omap2_mcspi_set_master_mode(&mcspi);
+	omap2_mcspi_setup_transfer(&mcspi, NULL);
+	//omap2_mcspi_set_master_mode(&mcspi);
 	
 	// Initialize the character driver interface
 	chrdev_init(&mcspi);	
