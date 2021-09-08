@@ -202,7 +202,9 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 	l |= OMAP2_MCSPI_MODULCTRL_SINGLE;
 	mcspi_write_reg(mcspi, OMAP2_MCSPI_MODULCTRL, l);
 	ctx->modulctrl = l;
-
+	
+	l = __raw_readl(mcspi->base + OMAP2_MCSPI_MODULCTRL);
+	printk("OMAP2_MCSPI_MODULCTRL =%u\t", l);
 }
 
 static int __init omap_spi_init_driver(void)
