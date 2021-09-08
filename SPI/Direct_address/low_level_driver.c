@@ -198,16 +198,22 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 	 * Set the single channel master mode and put the controller in functional mode
 	 */
 	l = mcspi_read_reg(mcspi, OMAP2_MCSPI_MODULCTRL);
+	//l = __raw_readl(spi_pad_base + 0x4);
+	printk("register1 = %d\t", l);
+	
 	l &= ~(OMAP2_MCSPI_MODULCTRL_STEST | OMAP2_MCSPI_MODULCTRL_MS);
 	l |= OMAP2_MCSPI_MODULCTRL_SINGLE;
 	mcspi_write_reg(mcspi, OMAP2_MCSPI_MODULCTRL, l);
 	ctx->modulctrl = l;
+	
+	l = mcspi_read_reg(mcspi, OMAP2_MCSPI_MODULCTRL);
+	//l = __raw_readl(spi_pad_base + 0x4);
+	printk("register2 = %d\t", l);
 }
 
 static int __init omap_spi_init_driver(void)
 {
 	void __iomem *spi_pad_base;
-	u32 l;
 
 	// Get the virtual address for the spi0 base address and store it into base field of omap2_mcspi structure, Add the offset 0x100 to the base address.
 	mcspi.base = ioremap(0x48030100, 0x1000);
@@ -227,9 +233,6 @@ static int __init omap_spi_init_driver(void)
 	__raw_writel(0x30, spi_pad_base + 0x4);
 	__raw_writel(0x30, spi_pad_base + 0x8);
 	__raw_writel(0x30, spi_pad_base + 0xc);
-
-	l = __raw_readl(spi_pad_base + 0x4);
-	printk("register = %d\t", l);
 	
 	omap2_mcspi_setup_transfer(&mcspi, NULL);
 	//omap2_mcspi_set_master_mode(&mcspi);
