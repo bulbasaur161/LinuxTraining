@@ -150,7 +150,7 @@ int spi_rw(struct omap2_mcspi *mcspi, char *buff)
 	u8 idx = 0;
 	ENTER();
 	
-		/* We store the pre-calculated register addresses on stack to speed
+	/* We store the pre-calculated register addresses on stack to speed
 	 * up the transfer loop. */
 	tx_reg		= base + OMAP2_MCSPI_TX0;
 	rx_reg		= base + OMAP2_MCSPI_RX0;
@@ -202,9 +202,6 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 	l |= OMAP2_MCSPI_MODULCTRL_SINGLE;
 	mcspi_write_reg(mcspi, OMAP2_MCSPI_MODULCTRL, l);
 	ctx->modulctrl = l;
-	
-	l = __raw_readl(mcspi->base + OMAP2_MCSPI_MODULCTRL);
-	printk("OMAP2_MCSPI_MODULCTRL =%u\t", l);
 }
 
 static int __init omap_spi_init_driver(void)
@@ -219,6 +216,7 @@ static int __init omap_spi_init_driver(void)
 		printk(KERN_ERR"Unable to get the virtual address.\n");
 		return PTR_ERR(mcspi.base);
 	}
+	
 	// Set the pinmux for spi0
 	spi_pad_base = ioremap(0x44E10950, 0x10);
 	if(IS_ERR(spi_pad_base)) 
@@ -231,11 +229,10 @@ static int __init omap_spi_init_driver(void)
 	__raw_writel(0x30, spi_pad_base + 0x8);
 	__raw_writel(0x30, spi_pad_base + 0xc);
 
-
 	omap2_mcspi_set_master_mode(&mcspi);
 	
 	// Initialize the character driver interface
-	chrdev_init(&mcspi);		
+	chrdev_init(&mcspi);
 
 	return 0;
 }
@@ -248,6 +245,6 @@ static void __exit omap_spi_exit_driver(void)
 module_init(omap_spi_init_driver);
 module_exit(omap_spi_exit_driver);
 
-MODULE_AUTHOR("TechoGenius Academy<techogenius7519@gmail.com");
+MODULE_AUTHOR("t");
 MODULE_DESCRIPTION("Low level SPI driver");
 MODULE_LICENSE("GPL");
