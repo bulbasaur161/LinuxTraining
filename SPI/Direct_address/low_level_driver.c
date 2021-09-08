@@ -213,6 +213,7 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 
 static int __init omap_spi_init_driver(void)
 {
+	ENTER();
 	void __iomem *spi_pad_base;
 
 	// Get the virtual address for the spi0 base address and store it into base field of omap2_mcspi structure, Add the offset 0x100 to the base address.
@@ -234,7 +235,6 @@ static int __init omap_spi_init_driver(void)
 	__raw_writel(0x30, spi_pad_base + 0x8);
 	__raw_writel(0x30, spi_pad_base + 0xc);
 	
-	//omap2_mcspi_setup_transfer(&mcspi, NULL);
 	omap2_mcspi_set_master_mode(&mcspi);
 	
 	// Initialize the character driver interface
