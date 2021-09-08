@@ -198,15 +198,26 @@ static void omap2_mcspi_set_master_mode(struct omap2_mcspi *mcspi)
 	 * Set the single channel master mode and put the controller in functional mode
 	 */
 	l = mcspi_read_reg(mcspi, OMAP2_MCSPI_MODULCTRL);
+	//l = __raw_readl(spi_pad_base + 0x4);
+	printk("register1 = %d\t", l);
+	
 	l &= ~(OMAP2_MCSPI_MODULCTRL_STEST | OMAP2_MCSPI_MODULCTRL_MS);
 	l |= OMAP2_MCSPI_MODULCTRL_SINGLE;
 	mcspi_write_reg(mcspi, OMAP2_MCSPI_MODULCTRL, l);
 	ctx->modulctrl = l;
+<<<<<<< HEAD
 
+=======
+	
+	l = mcspi_read_reg(mcspi, OMAP2_MCSPI_MODULCTRL);
+	//l = __raw_readl(spi_pad_base + 0x4);
+	printk("register2 = %d\t", l);
+>>>>>>> 2441c27134e7abcf7d8203eee355d2e65e183c08
 }
 
 static int __init omap_spi_init_driver(void)
 {
+	ENTER();
 	void __iomem *spi_pad_base;
 
 	// Get the virtual address for the spi0 base address and store it into base field of omap2_mcspi structure, Add the offset 0x100 to the base address.
@@ -227,8 +238,12 @@ static int __init omap_spi_init_driver(void)
 	__raw_writel(0x30, spi_pad_base + 0x4);
 	__raw_writel(0x30, spi_pad_base + 0x8);
 	__raw_writel(0x30, spi_pad_base + 0xc);
+<<<<<<< HEAD
 
 
+=======
+	
+>>>>>>> 2441c27134e7abcf7d8203eee355d2e65e183c08
 	omap2_mcspi_set_master_mode(&mcspi);
 	
 	// Initialize the character driver interface

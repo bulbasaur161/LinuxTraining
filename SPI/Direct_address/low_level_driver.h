@@ -64,15 +64,30 @@ struct omap2_mcspi_regs {
 	struct list_head cs;
 };
 
+struct omap2_mcspi_dma {
+	struct dma_chan *dma_tx;
+	struct dma_chan *dma_rx;
+
+	struct completion dma_tx_completion;
+	struct completion dma_rx_completion;
+
+	char dma_rx_ch_name[14];
+	char dma_tx_ch_name[14];
+};
+
 struct omap2_mcspi {
-	/* Virtual base address of the controller */
-	void __iomem	*base;
-    /* for providing a character device access */
 	struct class *spi_class;
-	struct omap2_mcspi_regs ctx;
+	struct spi_master	*master;
+	/* Virtual base address of the controller */
+	void __iomem		*base;
+	unsigned long		phys;
+	/* SPI1 has 4 channels, while SPI2 has 2 */
+	struct omap2_mcspi_dma	*dma_channels;
 	struct device		*dev;
+	struct omap2_mcspi_regs ctx;
  	dev_t devt;
   	struct cdev cdev;
+	int			fifo_depth;
 	unsigned int		pin_dir:1;
 };
 
