@@ -253,7 +253,7 @@ static const struct of_device_id my_mcspi_of_match[] = {
 // Populate the platform driver structure
 static struct platform_driver my_mcspi_driver = {
 	.driver = {
-		.name 	= "omap2_mcspi",
+		.name 	= "omap2_mcspi2",
 		.owner	= THIS_MODULE,
 	.of_match_table	= my_mcspi_of_match,
 	},
