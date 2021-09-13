@@ -100,3 +100,4 @@ https://cdn-learn.adafruit.com/downloads/pdf/introduction-to-the-beaglebone-blac
 https://github.com/notro/fbtft/wiki  
 http://papermint-designs.com/dmo-blog/2017-02-beaglebone-black-and-watterott-display  
 https://embetronicx.com/tutorials/linux/device-drivers/linux-kernel-spi-device-driver-tutorial/
+https://www.kernel.org/doc/Documentation/spi/spi-summary
