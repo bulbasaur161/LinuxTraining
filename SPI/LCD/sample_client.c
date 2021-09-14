@@ -5,6 +5,7 @@
 #include <linux/fs.h>
 #include <linux/device.h>
 #include <linux/uaccess.h>
+#include <linux/delay.h>
 #include "spi_char.h"
 
 struct sample_data {
@@ -124,6 +125,7 @@ static int sample_probe(struct spi_device *spi)
 	res =  spi_write(spi, &buf, sizeof(buf));
 	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, buf[0], buf[1], buf[2], buf[3], buf[4]);
 	/* spi_read to read the data form our spi */
+	mdelay(2);
 	res = spi_read(spi, &recv, sizeof(recv));
 	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, recv[0], recv[1], recv[2], recv[3], recv[4]);
 	
