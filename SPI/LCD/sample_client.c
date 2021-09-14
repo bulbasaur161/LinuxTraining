@@ -76,6 +76,7 @@ static int sample_probe(struct spi_device *spi)
 {
 	struct sample_data *data;
 	int init_result;
+	int res;
 	
 	ENTER();
 
@@ -120,7 +121,6 @@ static int sample_probe(struct spi_device *spi)
 		return -1;
 	}
 	
-	int res;
 	res =  spi_write(spi, &buf, sizeof(buf)) ;
 	printk(KERN_INFO "Write Result %d Size of Ret is %d\n",res,sizeof(buf)) ;
 	/* spi_read to read the data form our spi */
