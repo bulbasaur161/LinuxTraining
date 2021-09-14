@@ -73,6 +73,8 @@ static int sample_probe(struct spi_device *spi)
 {
 	struct sample_data *data;
 	int init_result;
+	
+	ENTER();
 
 	data = devm_kzalloc(&spi->dev, sizeof(struct sample_data), GFP_KERNEL);
 	data->spi = spi;
@@ -137,7 +139,7 @@ static int sample_remove(struct spi_device *spi)
 
 //Populate the id table as per dtb
 static const struct spi_device_id sample_id[] = {
-	{ "sample-spi", 0 },
+	{ "my_spi", 0 },
 	{ }
 };
 MODULE_DEVICE_TABLE(spi, sample_id);
@@ -145,7 +147,7 @@ MODULE_DEVICE_TABLE(spi, sample_id);
 // Populate the spi_driver data structure
 static struct spi_driver sample_driver = {
 	.driver = {
-		.name = "my_spi",
+		.name = "sample_client",
 		.owner = THIS_MODULE,
 	},
 	.probe = sample_probe,
