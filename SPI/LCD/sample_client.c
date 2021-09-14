@@ -121,11 +121,11 @@ static int sample_probe(struct spi_device *spi)
 		return -1;
 	}
 	
-	res =  spi_write(spi, &buf, sizeof(buf)) ;
-	printk(KERN_INFO "Write Result %d Size of Ret is %d\n",res,sizeof(buf)) ;
+	res =  spi_write(spi, &buf, sizeof(buf));
+	printk(KERN_INFO "Write Result %d value: %d\n",res,buf[0]) ;
 	/* spi_read to read the data form our spi */
-	res = spi_read(spi,&recv,sizeof(recv));
-	printk(KERN_INFO "Got Result and ret val: %d  %d\n",recv[0],res) ;
+	res = spi_read(spi, &recv, sizeof(recv));
+	printk(KERN_INFO "Got Result %d value: %d  %d\n",res,recv[0]);
 	
 	return 0;
 }
