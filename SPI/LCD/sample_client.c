@@ -125,7 +125,7 @@ static int sample_probe(struct spi_device *spi)
 	printk(KERN_INFO "Write Result %d Size of Ret is %d\n",res,sizeof(buf)) ;
 	/* spi_read to read the data form our spi */
 	res = spi_read(spi,&recv,sizeof(recv));
-	printk(KERN_INFO "Got Result and ret val: %d  %d\n",ret,recv[0]) ;
+	printk(KERN_INFO "Got Result and ret val: %d  %d\n",recv[0],res) ;
 	
 	return 0;
 }
