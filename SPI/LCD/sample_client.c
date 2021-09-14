@@ -5,6 +5,7 @@
 #include <linux/fs.h>
 #include <linux/device.h>
 #include <linux/uaccess.h>
+#include "spi_char.h"
 
 struct sample_data {
 	struct spi_device *spi;
@@ -75,16 +76,6 @@ static int sample_probe(struct spi_device *spi)
 
 	data = devm_kzalloc(&spi->dev, sizeof(struct sample_data), GFP_KERNEL);
 	data->spi = spi;
-
-	// Assign the tx_buf and rx_buf of  sample data structure to the cooresponding fields of transfer DS
-	data->transfer[0].tx_buf = &data->tx_buf;
-	data->transfer[0].len = sizeof(data->tx_buf);
-	data->transfer[1].rx_buf = &data->rx_buf;
-	data->transfer[1].len = sizeof(data->rx_buf);
-
-	// Initialize the data->msg with appended transfer
-	spi_message_init_with_transfers(&data->msg, data->transfer, ARRAY_SIZE(data->transfer));
-
 	spi_set_drvdata(spi,data);
 
 	init_result = alloc_chrdev_region(&data->devt, 0, 1, "spi_smp");
@@ -154,7 +145,7 @@ MODULE_DEVICE_TABLE(spi, sample_id);
 // Populate the spi_driver data structure
 static struct spi_driver sample_driver = {
 	.driver = {
-		.name = "sample_client",
+		.name = "my_spi",
 		.owner = THIS_MODULE,
 	},
 	.probe = sample_probe,
