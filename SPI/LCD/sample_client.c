@@ -69,6 +69,9 @@ struct file_operations fops = {
 	.read = sample_read,
 };
 
+unsigned char buf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
+unsigned char recv[5];
+
 static int sample_probe(struct spi_device *spi)
 {
 	struct sample_data *data;
@@ -116,6 +119,13 @@ static int sample_probe(struct spi_device *spi)
 		unregister_chrdev_region(data->devt, 1);
 		return -1;
 	}
+	
+	int res;
+	res =  spi_write(spi, &buf, sizeof(buf)) ;
+	printk(KERN_INFO "Write Result %d Size of Ret is %d\n",res,sizeof(buf)) ;
+	/* spi_read to read the data form our spi */
+	res = spi_read(spi,&recv,sizeof(recv));
+	printk(KERN_INFO "Got Result and ret val: %d  %d\n",ret,recv[0]) ;
 	
 	return 0;
 }
