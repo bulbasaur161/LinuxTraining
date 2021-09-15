@@ -26,6 +26,7 @@ struct sample_data {
 
 static ssize_t sample_read(struct file* f, char *buf, size_t count, loff_t *f_pos)
 {
+	int res;
 	struct sample_data *dev = (struct sample_data*) (f->private_data);
 	
 	struct spi_transfer tr = 
@@ -34,7 +35,7 @@ static ssize_t sample_read(struct file* f, char *buf, size_t count, loff_t *f_po
 		.rx_buf = &recv,
 		.len = 1,
 	};
-	spi_sync_transfer(dev->spi, &tr, 1);
+	res = spi_sync_transfer(dev->spi, &tr, 1);
 	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, buf[0], buf[1], buf[2], buf[3], buf[4]);
 	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, recv[0], recv[1], recv[2], recv[3], recv[4]);
 	recv[0] = 0;
