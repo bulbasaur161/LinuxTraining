@@ -122,7 +122,7 @@ static int sample_probe(struct spi_device *spi)
 		return -1;
 	}
 	
-	res = spi_write_then_read(spi, &buf, sizeof(buf), &recv, sizeof(recv))
+	res = spi_write_then_read(spi, &buf, sizeof(buf), &recv, sizeof(recv));
 	
 	//res =  spi_write(spi, &buf, sizeof(buf));
 	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, buf[0], buf[1], buf[2], buf[3], buf[4]);
