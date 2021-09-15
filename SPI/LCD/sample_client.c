@@ -23,21 +23,21 @@ struct sample_data {
 
 static ssize_t sample_read(struct file* f, char *buf, size_t count, loff_t *f_pos)
 {
-	unsigned char buf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
-	unsigned char recv[5];
+	unsigned char txbuf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
+	unsigned char rxbuf[5];
 	int res;
 	struct sample_data *dev = (struct sample_data*) (f->private_data);
 	
 	struct spi_transfer tr = 
     	{
-		.tx_buf	= &buf,
-		.rx_buf = &recv,
+		.tx_buf	= &txbuf,
+		.rx_buf = &rxbuf,
 		.len = 1,
 	};
 	res = spi_sync_transfer(dev->spi, &tr, 1);
-	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, buf[0], buf[1], buf[2], buf[3], buf[4]);
-	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, recv[0], recv[1], recv[2], recv[3], recv[4]);
-	recv[0] = 0;
+	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
+	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
+	rxbuf[0] = 0;
 	
 	return 0;
 }
@@ -68,8 +68,8 @@ struct file_operations fops = {
 
 static int sample_probe(struct spi_device *spi)
 {
-	unsigned char buf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
-	unsigned char recv[5];
+	unsigned char txbuf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
+	unsigned char rxbuf[5];
 	struct sample_data *data;
 	int init_result;
 	int res;
@@ -119,8 +119,8 @@ static int sample_probe(struct spi_device *spi)
 	
 	struct spi_transfer tr = 
     	{
-		.tx_buf	= &buf,
-		.rx_buf = &recv,
+		.tx_buf	= &txbuf,
+		.rx_buf = &rxbuf,
 		.len = 1,
 	};
 	spi_sync_transfer(spi, &tr, 1);
@@ -128,12 +128,12 @@ static int sample_probe(struct spi_device *spi)
 	//res = spi_write_then_read(spi, &buf, sizeof(buf), &recv, sizeof(recv));
 	
 	//res =  spi_write(spi, &buf, sizeof(buf));
-	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, buf[0], buf[1], buf[2], buf[3], buf[4]);
+	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
 	/* spi_read to read the data form our spi */
 	mdelay(2);
 	//res = spi_read(spi, &recv, sizeof(recv));
-	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, recv[0], recv[1], recv[2], recv[3], recv[4]);
-	recv[0] = 0;
+	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
+	rxbuf[0] = 0;
 	
 	return 0;
 }
