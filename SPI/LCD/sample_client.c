@@ -128,7 +128,7 @@ static int sample_probe(struct spi_device *spi)
 		.rx_buf = &recv,
 		.len = 1,
 	};
-	spi_sync_transfer( etx_spi_device, &tr, 1 );
+	spi_sync_transfer(spi, &tr, 1 );
 	
 	//res = spi_write_then_read(spi, &buf, sizeof(buf), &recv, sizeof(recv));
 	
