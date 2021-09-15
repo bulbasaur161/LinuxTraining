@@ -10,6 +10,7 @@
 
 unsigned char txbuf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
 unsigned char rxbuf[5];
+unsigned char rxbuf2[5];
 
 struct sample_data {
 	struct spi_device *spi;
@@ -36,9 +37,19 @@ static ssize_t sample_read(struct file* f, char *buf, size_t count, loff_t *f_po
 		.len = 1,
 	};
 	res = spi_sync_transfer(dev->spi, &tr, 1);
-	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
-	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
+	printk(KERN_INFO "spi_sync_transfer Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
+	printk(KERN_INFO "spi_sync_transfer Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
 	rxbuf[0] = 0;
+	
+	mdelay(2);
+	
+	res =  spi_write(spi, &txbuf, sizeof(txbuf[0]));
+	printk(KERN_INFO "spi_write Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
+	/* spi_read to read the data form our spi */
+	mdelay(2);
+	res = spi_read(spi, &rxbuf2, sizeof(rxbuf2[0]));
+	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, rxbuf2[0], rxbuf2[1], rxbuf2[2], rxbuf2[3], rxbuf2[4]);
+	rxbuf2[0] = 0;
 	
 	return 0;
 }
