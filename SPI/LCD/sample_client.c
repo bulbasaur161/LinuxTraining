@@ -43,11 +43,11 @@ static ssize_t sample_read(struct file* f, char *buf, size_t count, loff_t *f_po
 	
 	mdelay(2);
 	
-	res =  spi_write(spi, &txbuf, sizeof(txbuf[0]));
+	res =  spi_write(dev->spi, &txbuf, sizeof(txbuf[0]));
 	printk(KERN_INFO "spi_write Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
 	/* spi_read to read the data form our spi */
 	mdelay(2);
-	res = spi_read(spi, &rxbuf2, sizeof(rxbuf2[0]));
+	res = spi_read(dev->spi, &rxbuf2, sizeof(rxbuf2[0]));
 	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, rxbuf2[0], rxbuf2[1], rxbuf2[2], rxbuf2[3], rxbuf2[4]);
 	rxbuf2[0] = 0;
 	
