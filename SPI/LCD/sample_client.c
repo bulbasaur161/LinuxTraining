@@ -133,11 +133,11 @@ static int sample_probe(struct spi_device *spi)
 	//res = spi_write_then_read(spi, &buf, sizeof(buf), &recv, sizeof(recv));
 	
 	//res =  spi_write(spi, &buf, sizeof(buf));
-	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, tr.tx_buf[0], buf[1], buf[2], buf[3], buf[4]);
+	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, (unsigned char)tr.tx_buf[0], buf[1], buf[2], buf[3], buf[4]);
 	/* spi_read to read the data form our spi */
 	mdelay(2);
 	//res = spi_read(spi, &recv, sizeof(recv));
-	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, tr.rx_buf[0], recv[1], recv[2], recv[3], recv[4]);
+	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, (unsigned char)tr.rx_buf[0], recv[1], recv[2], recv[3], recv[4]);
 	
 	return 0;
 }
