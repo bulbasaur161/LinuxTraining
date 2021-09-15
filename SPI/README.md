@@ -100,5 +100,6 @@ https://cdn-learn.adafruit.com/downloads/pdf/introduction-to-the-beaglebone-blac
 https://github.com/notro/fbtft/wiki  
 http://papermint-designs.com/dmo-blog/2017-02-beaglebone-black-and-watterott-display  
 https://embetronicx.com/tutorials/linux/device-drivers/linux-kernel-spi-device-driver-tutorial/
-https://www.kernel.org/doc/Documentation/spi/spi-summary
-https://stackoverflow.com/questions/48098481/spi-without-cs-pins-configured-beaglebone-black
+https://www.kernel.org/doc/Documentation/spi/spi-summary  
+https://stackoverflow.com/questions/48098481/spi-without-cs-pins-configured-beaglebone-black  
+https://e2e.ti.com/support/processors-group/processors/f/processors-forum/606313/linux-am3354-not-able-to-read-rtc-over-spi
