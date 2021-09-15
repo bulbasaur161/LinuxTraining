@@ -8,6 +8,9 @@
 #include <linux/delay.h>
 #include "spi_char.h"
 
+unsigned char buf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
+unsigned char recv[5];
+
 struct sample_data {
 	struct spi_device *spi;
 	struct spi_message msg;
@@ -62,9 +65,6 @@ struct file_operations fops = {
 	.release = sample_close,
 	.read = sample_read,
 };
-
-unsigned char buf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
-unsigned char recv[5];
 
 static int sample_probe(struct spi_device *spi)
 {
