@@ -102,7 +102,7 @@ void spiWrite_command(void *dev, unsigned char c)
 		.len = 1,
 	};
 	
-	gpio_set_pin(LCD_DC_PIN, Low);
+	gpio_set_value(LCD_DC_PIN, Low);
 	//spi_write(dev, &c, sizeof(c));
 	res = spi_sync_transfer(dev, &tr, 1);
 }
@@ -117,7 +117,7 @@ void spiWrite_data(void *dev, unsigned char c)
 		.len = 1,
 	};
 	
-	gpio_set_pin(LCD_DC_PIN, High);
+	gpio_set_value(LCD_DC_PIN, High);
 	//spi_write(dev, &c, sizeof(c));
 	res = spi_sync_transfer(dev, &tr, 1);
 }
@@ -196,14 +196,14 @@ static int sample_probe(struct spi_device *spi)
 	}
 	
 	//LCD reset
-	gpio_set_pin(LCD_RESET_PIN, High);
+	gpio_set_value(LCD_RESET_PIN, High);
 	mdelay(5);
-	gpio_set_pin(LCD_RESET_PIN, Low);
+	gpio_set_value(LCD_RESET_PIN, Low);
 	mdelay(15);
-	gpio_set_pin(LCD_RESET_PIN, High);
+	gpio_set_value(LCD_RESET_PIN, High);
 	mdelay(15);
 	
-	gpio_set_pin(LCD_CS_PIN, Low);  //CS
+	gpio_set_value(LCD_CS_PIN, Low);  //CS
 	
 	spiWrite_command(spi, 0xCB);  
 	spiWrite_data(spi, 0x39); 
@@ -269,7 +269,7 @@ static int sample_probe(struct spi_device *spi)
 	spiWrite_command(spi, 0x29);    //Display on 
 	spiWrite_command(spi, 0x2c);
 	
-	gpio_set_pin(LCD_CS_PIN, High);  //CS
+	gpio_set_value(LCD_CS_PIN, High);  //CS
 	
 	//struct spi_transfer tr = 
     	//{
