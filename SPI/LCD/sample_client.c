@@ -195,8 +195,8 @@ void LCD_Clear(void *dev, unsigned int j)
 	for(i=0;i<240;i++)
 	for(m=0;m<320;m++)
 	{
-		spiWrite_data(j>>8);
-		spiWrite_data(j);
+		spiWrite_data(dev, j>>8);
+		spiWrite_data(dev, j);
 	}
 	gpio_set_value(LCD_CS_PIN, High);  //CS   
 }
