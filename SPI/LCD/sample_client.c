@@ -105,7 +105,7 @@ void spiWrite_command(void *dev, unsigned char c)
 	gpio_set_value(LCD_DC_PIN, Low);
 	//spi_write(dev, &c, sizeof(c));
 	res = spi_sync_transfer(dev, &tr, 1);
-	printk(KERN_INFO "spi_sync_transfer Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
+	//printk(KERN_INFO "spi_sync_transfer Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
 }
 
 void spiWrite_data(void *dev, unsigned char c)
@@ -113,7 +113,7 @@ void spiWrite_data(void *dev, unsigned char c)
 	int res;
 	struct spi_transfer tr = 
     	{
-		.tx_buf	= &txbuf,
+		.tx_buf	= &c,
 		.rx_buf = &rxbuf,
 		.len = 1,
 	};
@@ -121,7 +121,68 @@ void spiWrite_data(void *dev, unsigned char c)
 	gpio_set_value(LCD_DC_PIN, High);
 	//spi_write(dev, &c, sizeof(c));
 	res = spi_sync_transfer(dev, &tr, 1);
-	printk(KERN_INFO "spi_sync_transfer Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
+	//printk(KERN_INFO "spi_sync_transfer Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
+}
+
+void Address_set(void *dev, unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2)
+{
+        spiWrite_command(dev, 0x2a);
+	spiWrite_data(dev, x1>>8);
+	spiWrite_data(dev, x1);
+	spiWrite_data(dev, x2>>8);
+	spiWrite_data(dev, x2);
+        spiWrite_command(dev, 0x2b);
+	spiWrite_data(dev, y1>>8);
+	spiWrite_data(dev, y1);
+	spiWrite_data(dev, y2>>8);
+	spiWrite_data(dev, y2);
+	spiWrite_command(dev, 0x2c); 							 
+}
+
+void H_line(void *dev, unsigned int x, unsigned int y, unsigned int l, unsigned int c)                   
+{	
+	unsigned int i,j;
+	
+	gpio_set_value(LCD_CS_PIN, Low);  //CS
+	
+	spiWrite_command(dev, 0x02c); //write_memory_start
+	//digitalWrite(RS,HIGH);
+	l=l+x;
+	Address_set(dev,x,y,l,y);
+	j=l*2;
+	for(i=1;i<=j;i++)
+	{
+		spiWrite_data(dev, c);
+	}
+	
+	gpio_set_value(LCD_CS_PIN, High);  //CS 
+}
+
+void V_line(void *dev, unsigned int x, unsigned int y, unsigned int l, unsigned int c)                   
+{	
+	unsigned int i,j;
+	
+	gpio_set_value(LCD_CS_PIN, Low);  //CS
+	
+	spiWrite_command(dev, 0x02c); //write_memory_start
+	//digitalWrite(RS,HIGH);
+	l=l+y;
+	Address_set(dev,x,y,x,l);
+	j=l*2;
+	for(i=1;i<=j;i++)
+	{ 
+		spiWrite_data(dev, c);
+	}
+	
+	gpio_set_value(LCD_CS_PIN, High);  //CS 
+}
+
+void Rect(void *dev, unsigned int x,unsigned int y,unsigned int w,unsigned int h,unsigned int c)
+{
+	H_line(dev, x  , y  , w, c);
+	H_line(dev, x  , y+h, w, c);
+	V_line(dev, x  , y  , h, c);
+	V_line(dev, x+w, y  , h, c);
 }
 
 static int sample_probe(struct spi_device *spi)
@@ -272,6 +333,8 @@ static int sample_probe(struct spi_device *spi)
 	spiWrite_command(spi, 0x2c);
 	
 	gpio_set_value(LCD_CS_PIN, High);  //CS
+	
+	Rect(spi, 50, 100, 150, 200,50000); // rectangle at x, y, with, hight, color
 	
 	//struct spi_transfer tr = 
     	//{
