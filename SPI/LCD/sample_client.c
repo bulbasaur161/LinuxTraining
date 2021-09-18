@@ -230,7 +230,6 @@ void lcd_init(void *spi)
 
 static ssize_t sample_read(struct file* f, char *buf, size_t count, loff_t *f_pos)
 {
-	int res;
 	struct sample_data *dev = (struct sample_data*) (f->private_data);
 	
 	Rect(dev->spi, 50, 100, 150, 200,50000); // rectangle at x, y, with, hight, color
@@ -270,7 +269,7 @@ static int sample_probe(struct spi_device *spi)
 {
 	struct sample_data *data;
 	int init_result;
-	int res, ret;
+	int ret;
 	int i = 0;
 	
 	ENTER();
