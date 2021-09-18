@@ -6,6 +6,8 @@
 #include <linux/device.h>
 #include <linux/uaccess.h>
 #include <linux/delay.h>
+#include <linux/miscdevice.h>
+#include <linux/gpio.h>
 #include "spi_char.h"
 
 #define LCD_DC_PIN		26
@@ -124,7 +126,7 @@ static int sample_probe(struct spi_device *spi)
 {
 	struct sample_data *data;
 	int init_result;
-	int res;
+	int res, ret;
 	int i = 0;
 	
 	ENTER();
