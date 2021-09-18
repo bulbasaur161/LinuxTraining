@@ -8,9 +8,21 @@
 #include <linux/delay.h>
 #include "spi_char.h"
 
+#define LCD_DC_PIN		26
+#define LCD_RESET_PIN		46
+#define LCD_CS_PIN		65
+
+#define PIN_NUMBER 3
+static unsigned int gpioButton[PIN_NUMBER] = {LCD_DC_PIN, LCD_RESET_PIN, LCD_CS_PIN};
+
 unsigned char txbuf[5] = {0x0A, 0x0B, 0x0C, 0x0D, 0x0E};
 unsigned char rxbuf[5];
 unsigned char rxbuf2[5];
+
+typedef enum pin_state {
+	Low,
+	High
+} pin_state_t;
 
 struct sample_data {
 	struct spi_device *spi;
@@ -83,6 +95,7 @@ static int sample_probe(struct spi_device *spi)
 	struct sample_data *data;
 	int init_result;
 	int res;
+	int i = 0;
 	
 	ENTER();
 
@@ -127,23 +140,54 @@ static int sample_probe(struct spi_device *spi)
 		return -1;
 	}
 	
-	struct spi_transfer tr = 
-    	{
-		.tx_buf	= &txbuf,
-		.rx_buf = &rxbuf,
-		.len = 1,
-	};
-	spi_sync_transfer(spi, &tr, 1);
+	// Check invalid gpio
+	for (i = 0; i< PIN_NUMBER; i++)
+	{
+		if (!gpio_is_valid(gpioButton[i]))
+		{
+			pr_info("This gpio pin %d is not valid\n", gpioButton[i]);
+			return -1;
+		}
+	}
 	
+	// Request
+	for (i = 0; i< PIN_NUMBER; i++)
+	{
+		ret = gpio_request(gpioButton[i], "lcd");
+		if (ret < 0)
+		{
+			pr_info("Failed to request GPIO\n");
+			return -1;
+		}
+		//config pin is output
+		gpio_direction_output(gpioButton[i], 0);
+	}
+	
+	//LCD reset
+	gpio_set_pin(LCD_RESET_PIN, High);
+	mdelay(5);
+	gpio_set_pin(LCD_RESET_PIN, Low);
+	mdelay(15);
+	gpio_set_pin(LCD_RESET_PIN, High);
+	mdelay(15);
+	
+	digitalWrite(LCD_CS_PIN, Low);  //CS
+	
+	//struct spi_transfer tr = 
+    	//{
+	//	.tx_buf	= &txbuf,
+	//	.rx_buf = &rxbuf,
+	//	.len = 1,
+	//};
+	//spi_sync_transfer(spi, &tr, 1);
 	//res = spi_write_then_read(spi, &buf, sizeof(buf), &recv, sizeof(recv));
-	
 	//res =  spi_write(spi, &buf, sizeof(buf));
-	printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
+	//printk(KERN_INFO "Write Result %d value: %u %u %u %u %u\n", res, txbuf[0], txbuf[1], txbuf[2], txbuf[3], txbuf[4]);
 	/* spi_read to read the data form our spi */
-	mdelay(2);
+	//mdelay(2);
 	//res = spi_read(spi, &recv, sizeof(recv));
-	printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
-	rxbuf[0] = 0;
+	//printk(KERN_INFO "Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
+	//rxbuf[0] = 0;
 	
 	return 0;
 }
