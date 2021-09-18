@@ -31,7 +31,6 @@ mcasp0_pins: mcasp0_pins {
 
 # Pin connection
 BBB                 LCD  
------------------------
 P9.1  | GND       | GND  
 P9.3  | 3.3V      | Vcc  
 P9.4  | 3.3V      | LED  
