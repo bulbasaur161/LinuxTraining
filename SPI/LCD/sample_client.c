@@ -185,6 +185,22 @@ void Rect(void *dev, unsigned int x,unsigned int y,unsigned int w,unsigned int h
 	V_line(dev, x+w, y  , h, c);
 }
 
+void LCD_Clear(void *dev, unsigned int j)                   
+{	
+	unsigned int i, m;
+	
+	gpio_set_value(LCD_CS_PIN, Low);  //CS
+	
+	Address_set(dev,0,0,240,320);
+	for(i=0;i<240;i++)
+	for(m=0;m<320;m++)
+	{
+		spiWrite_data(j>>8);
+		spiWrite_data(j);
+	}
+	gpio_set_value(LCD_CS_PIN, High);  //CS   
+}
+
 static int sample_probe(struct spi_device *spi)
 {
 	struct sample_data *data;
@@ -335,6 +351,10 @@ static int sample_probe(struct spi_device *spi)
 	gpio_set_value(LCD_CS_PIN, High);  //CS
 	
 	Rect(spi, 50, 100, 150, 200,50000); // rectangle at x, y, with, hight, color
+	LCD_Clear(spi, 0xf800);
+	LCD_Clear(spi, 0x07E0);
+	LCD_Clear(spi, 0x001F);
+	LCD_Clear(spi, 0x0); 
 	
 	//struct spi_transfer tr = 
     	//{
