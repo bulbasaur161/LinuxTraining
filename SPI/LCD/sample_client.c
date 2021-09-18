@@ -334,7 +334,7 @@ static int sample_probe(struct spi_device *spi)
 	
 	gpio_set_value(LCD_CS_PIN, High);  //CS
 	
-	Rect(spi, 50, 100, 150, 200,50000); // rectangle at x, y, with, hight, color
+	//Rect(spi, 50, 100, 150, 200,50000); // rectangle at x, y, with, hight, color
 	
 	//struct spi_transfer tr = 
     	//{
