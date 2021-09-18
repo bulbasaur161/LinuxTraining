@@ -90,6 +90,36 @@ struct file_operations fops = {
 	.read = sample_read,
 };
 
+void spiWrite_command(void *dev, unsigned char c)
+{
+	int res;
+	struct spi_transfer tr = 
+    	{
+		.tx_buf	= &c,
+		.rx_buf = &rxbuf,
+		.len = 1,
+	};
+	
+	gpio_set_pin(LCD_DC_PIN, Low);
+	//spi_write(dev, &c, sizeof(c));
+	res = spi_sync_transfer(dev, &tr, 1);
+}
+
+void spiWrite_data(void *dev, unsigned char c)
+{
+	int res;
+	struct spi_transfer tr = 
+    	{
+		.tx_buf	= &txbuf,
+		.rx_buf = &rxbuf,
+		.len = 1,
+	};
+	
+	gpio_set_pin(LCD_DC_PIN, High);
+	//spi_write(dev, &c, sizeof(c));
+	res = spi_sync_transfer(dev, &tr, 1);
+}
+
 static int sample_probe(struct spi_device *spi)
 {
 	struct sample_data *data;
@@ -171,7 +201,73 @@ static int sample_probe(struct spi_device *spi)
 	gpio_set_pin(LCD_RESET_PIN, High);
 	mdelay(15);
 	
-	digitalWrite(LCD_CS_PIN, Low);  //CS
+	gpio_set_pin(LCD_CS_PIN, Low);  //CS
+	
+	spiWrite_command(spi, 0xCB);  
+	spiWrite_data(spi, 0x39); 
+	spiWrite_data(spi, 0x2C); 
+	spiWrite_data(spi, 0x00); 
+	spiWrite_data(spi, 0x34); 
+	spiWrite_data(spi, 0x02); 
+
+	spiWrite_command(spi, 0xCF);  
+	spiWrite_data(spi, 0x00); 
+	spiWrite_data(spi, 0XC1); 
+	spiWrite_data(spi, 0X30); 
+
+	spiWrite_command(spi, 0xE8);  
+	spiWrite_data(spi, 0x85); 
+	spiWrite_data(spi, 0x00); 
+	spiWrite_data(spi, 0x78); 
+
+	spiWrite_command(spi, 0xEA);  
+	spiWrite_data(spi, 0x00); 
+	spiWrite_data(spi, 0x00); 
+
+	spiWrite_command(spi, 0xED);  
+	spiWrite_data(spi, 0x64); 
+	spiWrite_data(spi, 0x03); 
+	spiWrite_data(spi, 0X12); 
+	spiWrite_data(spi, 0X81); 
+
+	spiWrite_command(spi, 0xF7);  
+	spiWrite_data(spi, 0x20); 
+
+	spiWrite_command(spi, 0xC0);    //Power control 
+	spiWrite_data(spi, 0x23);   //VRH[5:0] 
+
+	spiWrite_command(spi, 0xC1);    //Power control 
+	spiWrite_data(spi, 0x10);   //SAP[2:0];BT[3:0] 
+
+	spiWrite_command(spi, 0xC5);    //VCM control 
+	spiWrite_data(spi, 0x3e);   //Contrast
+	spiWrite_data(spi, 0x28); 
+
+	spiWrite_command(spi, 0xC7);    //VCM control2 
+	spiWrite_data(spi, 0x86);   //--
+
+	spiWrite_command(spi, 0x36);    // Memory Access Control 
+	spiWrite_data(spi, 0x48);   
+
+	spiWrite_command(spi, 0x3A);    
+	spiWrite_data(spi, 0x55); 
+
+	spiWrite_command(spi, 0xB1);    
+	spiWrite_data(spi, 0x00);  
+	spiWrite_data(spi, 0x18); 
+
+	spiWrite_command(spi, 0xB6);    // Display Function Control 
+	spiWrite_data(spi, 0x08); 
+	spiWrite_data(spi, 0x82);
+	spiWrite_data(spi, 0x27);  
+
+	spiWrite_command(spi, 0x11);    //Exit Sleep 
+	mdelay(120); 
+
+	spiWrite_command(spi, 0x29);    //Display on 
+	spiWrite_command(spi, 0x2c);
+	
+	gpio_set_pin(LCD_CS_PIN, High);  //CS
 	
 	//struct spi_transfer tr = 
     	//{
