@@ -105,6 +105,7 @@ void spiWrite_command(void *dev, unsigned char c)
 	gpio_set_value(LCD_DC_PIN, Low);
 	//spi_write(dev, &c, sizeof(c));
 	res = spi_sync_transfer(dev, &tr, 1);
+	printk(KERN_INFO "spi_sync_transfer Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
 }
 
 void spiWrite_data(void *dev, unsigned char c)
@@ -120,6 +121,7 @@ void spiWrite_data(void *dev, unsigned char c)
 	gpio_set_value(LCD_DC_PIN, High);
 	//spi_write(dev, &c, sizeof(c));
 	res = spi_sync_transfer(dev, &tr, 1);
+	printk(KERN_INFO "spi_sync_transfer Got Result %d value: %u %u %u %u %u\n", res, rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3], rxbuf[4]);
 }
 
 static int sample_probe(struct spi_device *spi)
