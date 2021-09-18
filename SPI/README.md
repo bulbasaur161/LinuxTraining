@@ -30,6 +30,16 @@ mcasp0_pins: mcasp0_pins {
 ```
 
 # Pin connection
+BBB                 LCD  
+-----------------------
+P9.1  | GND       | GND  
+P9.3  | 3.3V      | Vcc  
+P9.4  | 3.3V      | LED  
+GPIO  |           | DC  
+GPIO  |           | RESET  
+GPIO  |           | CS  
+P9.18 | SPI0_MOSI | MOSI  
+P9.22 | SPI0_SCLK | SCLK  
 ![image](https://user-images.githubusercontent.com/49242472/127280931-9d1e22f7-1cd3-4139-9c42-09035be82e70.png)
 
 # Offset SPI
