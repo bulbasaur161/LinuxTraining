@@ -74,3 +74,51 @@ If you use offset address in spi device tree, you need use module_spi_driver, sa
         };
 };
 ```
+# Touch screen
+If you use touch screen, SPI0 will be used for touch, SPI1 will be used for display
+```sh
+&am33xx_pinmux {
+        spi0_pins: spi0_pins {
+                pinctrl-single,pins = <
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_SCLK, PIN_INPUT_PULLUP, MUX_MODE0)       /* P9.22 */
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_D0, PIN_INPUT_PULLUP, MUX_MODE0)         /* P9.21 */
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_D1, PIN_OUTPUT_PULLUP, MUX_MODE0)        /* P9.18 */
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_CS0, PIN_OUTPUT_PULLUP, MUX_MODE0)       /* P9.17 */
+                >;
+        };
+
+        spi1_pins: spi1_pins {
+                pinctrl-single,pins = <
+                        AM33XX_PADCONF(AM335X_PIN_MCASP0_ACLKX, PIN_INPUT_PULLUP, MUX_MODE3)    /* P9.31 SCLK */
+                       // AM33XX_PADCONF(AM335X_PIN_MCASP0_FSX, PIN_INPUT_PULLUP, MUX_MODE3)    /* P9.29 D0 */
+                        AM33XX_PADCONF(AM335X_PIN_MCASP0_AXR0, PIN_OUTPUT_PULLUP, MUX_MODE3)    /* P9.30 D1 */
+                        AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKR, PIN_OUTPUT_PULLUP, MUX_MODE3)  /* P9.28 CS0 */
+                >;
+        };
+}
+
+&spi0 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&spi0_pins>;
+        status = "okay";
+
+        myslave0: my_spi0@0 {
+                compatible = "my_spi0";
+                reg = <0>;
+                spi-max-frequency = <10000000>;
+        };
+};
+
+&spi1 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&spi1_pins>;
+        status = "okay";
+
+        myslave1: my_spi0@0 {
+                compatible = "my_spi1";
+                reg = <0>;
+                spi-max-frequency = <10000000>;
+        };
+};
+
+```
