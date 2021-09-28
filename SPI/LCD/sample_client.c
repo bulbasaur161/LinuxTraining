@@ -10,6 +10,8 @@
 #include <linux/gpio.h>
 #include "spi_char.h"
 
+#define ENTER() printk("\n###### In %s ######\n", __func__);
+
 #define LCD_DC_PIN		26
 #define LCD_RESET_PIN		46
 #define LCD_CS_PIN		65
