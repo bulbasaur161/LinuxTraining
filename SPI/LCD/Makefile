@@ -1,4 +1,4 @@
-obj-m := sample_client.o
+obj-m := lcd_tft.o
 
 ARCH=arm
 CROSS_COMPILE=arm-linux-gnueabihf-
