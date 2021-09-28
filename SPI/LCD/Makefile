@@ -1,5 +1,4 @@
-obj-m := spi.o sample_master.o sample_client.o
-spi-y := spi_char.o low_level_driver.o
+obj-m := sample_client.o
 
 ARCH=arm
 CROSS_COMPILE=arm-linux-gnueabihf-
