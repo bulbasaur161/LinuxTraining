@@ -363,7 +363,7 @@ static int sample_remove(struct spi_device *spi)
 
 //Populate the id table as per dtb
 static const struct spi_device_id sample_id[] = {
-	{ "my_spi0", 0 },
+	{ "my_spi1", 0 },
 	{ }
 };
 MODULE_DEVICE_TABLE(spi, sample_id);
