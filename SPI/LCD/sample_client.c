@@ -8,7 +8,6 @@
 #include <linux/delay.h>
 #include <linux/miscdevice.h>
 #include <linux/gpio.h>
-#include "spi_char.h"
 
 #define ENTER() printk("\n###### In %s ######\n", __func__);
 
