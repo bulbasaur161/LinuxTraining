@@ -20,3 +20,16 @@ If use directly address access you need modify kernel for hardware mode to not t
   .prcm = {
   .omap4 = {
 ```
+# Kernel module
+If you use direct spi address in device tree, you must use platform_driver_register, my_mcspi_probe(struct platform_device *pdev) in kernel module because it is considered as a platform device.
+```sh
+my_spi: spi@0x48030000 {
+		compatible = "my_spi";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x48030100 0x400>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&spi0_pins>;
+		status = "okay";
+	};
+```
