@@ -75,7 +75,9 @@ If you use offset address in spi device tree, you need use module_spi_driver, sa
 };
 ```
 # Touch screen
-If you use touch screen, SPI0 will be used for touch, SPI1 will be used for display
+If you use touch screen, SPI0 will be used for touch, SPI1 will be used for display.
+spi1 and HDMI both uses P9.29 so HDMI (mcasp0_fsx) has to be disabled for spi1 (spi1_d0 MISO) to be used. This means that displays with a SPI LCD controller and a SPI touch controller can't have HDMI enabled if one SPI bus is used for both lcd and touch.
+Custom displays that use both SPI busses can have HDMI enabled if spi0 is used for touch (has MISO) and spi1 is used for lcd.
 ```sh
 &am33xx_pinmux {
         spi0_pins: spi0_pins {
