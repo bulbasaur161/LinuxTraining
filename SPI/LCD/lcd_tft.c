@@ -13,7 +13,7 @@
 
 #define LCD_DC_PIN		26
 #define LCD_RESET_PIN		46
-#define LCD_CS_PIN		65
+#define LCD_CS_PIN		65 // You can connect CS0 of LCD to SPI0CS0(P9.17) or LCD_CS_PIN(GPIO65-P8.18)
 
 #define PIN_NUMBER 3
 static unsigned int gpioButton[PIN_NUMBER] = {LCD_DC_PIN, LCD_RESET_PIN, LCD_CS_PIN};
