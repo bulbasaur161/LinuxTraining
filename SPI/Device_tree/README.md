@@ -33,5 +33,44 @@ my_spi: spi@0x48030000 {
 		pinctrl-0 = <&spi0_pins>;
 		status = "okay";
 	};
+	
+&am33xx_pinmux {
+	pinctrl-names = "default";
+	pinctrl-0 = <&clkout2_pin>;
+	
+	spi0_pins: spi0_pins {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_SPI0_SCLK, PIN_INPUT_PULLUP, MUX_MODE0)	/* P9.22 SCLK - pin13 Arduino SCLK*/
+			AM33XX_PADCONF(AM335X_PIN_SPI0_D0, PIN_INPUT_PULLUP, MUX_MODE0)		/* P9.21 MISO - pin12 Arduino MISO*/
+			AM33XX_PADCONF(AM335X_PIN_SPI0_D1, PIN_OUTPUT_PULLUP, MUX_MODE0)	/* P9.18 MOSI - pin11 Arduino MOSI*/
+			AM33XX_PADCONF(AM335X_PIN_SPI0_CS0, PIN_OUTPUT_PULLUP, MUX_MODE0)	/* P9.17 CS0 - pin10 Arduino SS*/
+		>;
+	};
+};
 ```
 If you use offset address in spi device tree, you need use module_spi_driver, sample_probe(struct spi_device *spi) in kernel module.
+```sh
+#arch/arm/boot/dts/am335x-bone-common.dtsi
+&am33xx_pinmux {
+        spi0_pins: spi0_pins {
+                pinctrl-single,pins = <
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_SCLK, PIN_INPUT_PULLUP, MUX_MODE0)       /* P9.22 */
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_D0, PIN_INPUT_PULLUP, MUX_MODE0)         /* P9.21 */
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_D1, PIN_OUTPUT_PULLUP, MUX_MODE0)        /* P9.18 */
+                        AM33XX_PADCONF(AM335X_PIN_SPI0_CS0, PIN_OUTPUT_PULLUP, MUX_MODE0)       /* P9.17 */
+                >;
+        };
+};
+
+&spi0 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&spi0_pins>;
+        status = "okay";
+
+        myslave0: my_spi0@0 {
+                compatible = "my_spi";
+                reg = <0>;
+                spi-max-frequency = <10000000>;
+        };
+};
+```
