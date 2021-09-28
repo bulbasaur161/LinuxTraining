@@ -1,0 +1,22 @@
+# Modify kernel
+If use directly address access you need modify kernel for hardware mode to not to go to IDLE state.  
+```sh
+--- a/arch/arm/mach-omap2/omap_hwmod_33xx_43xx_ipblock_data.c
++++ b/arch/arm/mach-omap2/omap_hwmod_33xx_43xx_ipblock_data.c
+@@ -886,6 +886,7 @@ struct omap_hwmod am33xx_spi0_hwmod = {
+  .name = "spi0",
+  .class = &am33xx_spi_hwmod_class,
+  .clkdm_name = "l4ls_clkdm",
++ .flags = HWMOD_NO_IDLE,
+  .main_clk = "dpll_per_m2_div4_ck",
+  .prcm = {
+  .omap4 = {
+@@ -899,6 +900,7 @@ struct omap_hwmod am33xx_spi1_hwmod = {
+  .name = "spi1",
+  .class = &am33xx_spi_hwmod_class,
+  .clkdm_name = "l4ls_clkdm",
++ .flags = HWMOD_NO_IDLE,
+  .main_clk = "dpll_per_m2_div4_ck",
+  .prcm = {
+  .omap4 = {
+```
