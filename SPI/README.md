@@ -100,7 +100,8 @@ target-module@30000 {			/* 0x48030000, ap 77 08.0 */
 };
 
 ```
-
+# Detail LCD
+http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807
 # Reference
 https://github.com/eziya/STM32_HAL_ILI9341  
 https://m.blog.naver.com/jjong_w/220971986593  
